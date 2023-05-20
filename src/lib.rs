@@ -43,7 +43,7 @@ mod tests {
 
     #[allow(non_snake_case)]
     #[tokio::test]
-    async fn manga_feed_40X() {
+    async fn fetch_errors() {
         let client = reqwest::Client::new();
         let res = client
             .get("https://api.mangadex.org/fail")
