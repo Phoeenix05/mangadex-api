@@ -40,18 +40,21 @@ mod tests {
             .unwrap()
             .json::<List>()
             .await;
-        
+
         assert!(res.is_ok())
     }
 
     #[tokio::test]
     async fn manga_feed_200() {
-        let res = fetch("https://api.mangadex.org/manga/e6eb6bd0-0285-4fac-a6da-9bc4234ac1bb/feed")
-            .await
-            .unwrap()
-            .json::<Feed>()
-            .await;
-        dbg!(&res);
-        assert!(res.is_ok())
+        let test_cases = vec![
+            "e6eb6bd0-0285-4fac-a6da-9bc4234ac1bb",
+            "b35163ef-efbf-4cb9-bf97-0acc89200455",
+        ];
+
+        for case in test_cases.into_iter() {
+            let url = format!("https://api.mangadex.org/manga/{case}/feed");
+            let res: std::result::Result<Feed, reqwest::Error> = fetch(url.as_str()).await.unwrap().json::<Feed>().await;
+            assert!(res.is_ok())
+        }
     }
 }

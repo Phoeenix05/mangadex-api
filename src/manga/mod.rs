@@ -62,7 +62,7 @@ pub struct ListDataAttr {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FeedDataAttr {
     pub title: Option<String>,
-    pub volume: String,
+    pub volume: Option<String>,
     pub chapter: String,
     pub pages: u64,
     #[serde(rename = "translatedLanguage")]
