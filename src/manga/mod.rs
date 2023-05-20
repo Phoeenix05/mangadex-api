@@ -12,16 +12,19 @@ use serde::{Deserialize, Serialize};
 // }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Manga {
+pub struct Manga<T>
+where
+    T: Serialize,
+{
     pub id: uuid::Uuid,
     #[serde(rename = "type")]
     pub data_type: String,
-    pub attributes: Attributes,
+    pub attributes: T,
     pub relationships: Vec<Relationship>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Attributes {
+pub struct ListDataAttr {
     pub title: serde_json::Value,
     #[serde(rename = "altTitles")]
     pub alt_titles: Vec<serde_json::Value>,
@@ -54,6 +57,28 @@ pub struct Attributes {
     pub created_at: String,
     #[serde(rename = "updatedAt")]
     pub updated_at: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FeedDataAttr {
+    pub title: Option<String>,
+    pub volume: String,
+    pub chapter: String,
+    pub pages: u64,
+    #[serde(rename = "translatedLanguage")]
+    pub translated_language: String,
+    pub uploader: Option<uuid::Uuid>,
+    #[serde(rename = "externalUrl")]
+    pub external_url: Option<String>,
+    pub version: u64,
+    #[serde(rename = "createdAt")]
+    pub created_at: String,
+    #[serde(rename = "updatedAt")]
+    pub updated_at: String,
+    #[serde(rename = "publishAt")]
+    pub published_at: String,
+    #[serde(rename = "readableAt")]
+    pub readable_at: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

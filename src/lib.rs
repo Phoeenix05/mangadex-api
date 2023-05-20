@@ -21,10 +21,10 @@ mod user;
 
 pub use manga::List;
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Err400 {
+pub struct Err40X {
     pub result: String,
     pub errors: Vec<Error>,
 }
@@ -35,4 +35,24 @@ pub struct Error {
     pub status: u64,
     pub title: String,
     pub detail: String,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[allow(non_snake_case)]
+    #[tokio::test]
+    async fn manga_feed_40X() {
+        let client = reqwest::Client::new();
+        let res = client
+            .get("https://api.mangadex.org/fail")
+            .send()
+            .await
+            .unwrap()
+            .json::<Err40X>()
+            .await;
+
+        assert!(res.is_ok())
+    }
 }
