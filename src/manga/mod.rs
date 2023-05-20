@@ -22,21 +22,21 @@ pub struct Manga {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Attributes {
-    pub title: Title,
+    pub title: serde_json::Value,
     #[serde(rename = "altTitles")]
-    pub alt_titles: Vec<Title>,
-    pub description: Title,             // Used here because the types are the same, idk why
+    pub alt_titles: Vec<serde_json::Value>,
+    pub description: serde_json::Value,
     #[serde(rename = "isLocked")]
     pub is_locked: bool,
-    pub links: Title,                    // Used here because the types are the same, idk why
+    pub links: serde_json::Value,
     #[serde(rename = "originalLanguage")]
     pub original_language: String,
     #[serde(rename = "lastVolume")]
     pub last_volume: String,
     #[serde(rename = "lastChapter")]
     pub last_chapter: String,
-    #[serde(rename = "publicationDemgraphic")]
-    pub publication_demographic: String,
+    #[serde(rename = "publicationDemographic")]
+    pub publication_demographic: Option<String>,
     pub status: String,
     pub year: u64,
     #[serde(rename = "contentRating")]
@@ -61,12 +61,6 @@ pub struct Relationship {
     pub id: uuid::Uuid,
     #[serde(rename = "type")]
     pub data_type: String,
-    pub related: String,
-    pub attributes: serde_json::Value,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Title {
-    pub property1: String,
-    pub property2: String,
+    pub related: Option<String>,
+    pub attributes: Option<serde_json::Value>,
 }
