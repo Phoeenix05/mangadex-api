@@ -12,7 +12,7 @@ I'm planning to add an API wrapper later on for now only the types are available
 | auth            |        |
 | author          |        |
 | captcha         |        |
-| chapter         |        |
+| chapter         | WIP    |
 | cover           |        |
 | customlist      |        |
 | feed            |        |
