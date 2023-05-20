@@ -40,7 +40,7 @@ mod tests {
             .unwrap()
             .json::<List>()
             .await;
-
+        
         assert!(res.is_ok())
     }
 

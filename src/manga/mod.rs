@@ -41,7 +41,7 @@ pub struct ListDataAttr {
     #[serde(rename = "publicationDemographic")]
     pub publication_demographic: Option<String>,
     pub status: String,
-    pub year: u64,
+    pub year: Option<u64>,
     #[serde(rename = "contentRating")]
     pub content_rating: String,
     #[serde(rename = "chapterNumbersResetOnNewVolume")]
