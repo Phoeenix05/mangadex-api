@@ -19,9 +19,30 @@ mod settings;
 mod upload;
 mod user;
 
-pub use manga::List;
+pub use manga::*;
+pub use chapter::*;
 
 use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Response<T> {
+    pub result: String,
+    pub response: String,
+    pub data: Vec<T>,
+    pub limit: Option<u64>,
+    pub offset: Option<u64>,
+    pub total: Option<u64>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Relationship {
+    pub id: uuid::Uuid,
+    #[serde(rename = "type")]
+    pub data_type: String,
+    pub related: Option<String>,
+    pub attributes: Option<serde_json::Value>,
+}
+
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Err40X {
