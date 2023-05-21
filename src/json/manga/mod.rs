@@ -1,9 +1,8 @@
-mod get;
-pub use get::*;
-
+use super::*;
 use serde::{Deserialize, Serialize};
 
-use crate::Relationship;
+mod get;
+pub use get::*;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Manga<T> {

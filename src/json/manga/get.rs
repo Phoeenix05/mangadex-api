@@ -83,7 +83,7 @@ pub struct FeedDataAttr {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::tests::fetch;
+    use crate::json::tests::fetch;
 
     #[tokio::test]
     async fn manga_list() {

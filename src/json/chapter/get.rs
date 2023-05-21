@@ -1,6 +1,4 @@
-use serde::{Deserialize, Serialize};
-
-use crate::Relationship;
+use super::*;
 
 /// Provides types for API endpoint `/chapter`
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -58,7 +56,7 @@ pub struct DataAttr {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::tests::fetch;
+    use crate::json::tests::fetch;
 
     #[tokio::test]
     async fn chapter_list() {
