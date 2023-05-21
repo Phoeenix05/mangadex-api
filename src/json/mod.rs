@@ -21,14 +21,9 @@ pub mod user;
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Response<T> {
-    pub result: String,
-    pub response: String,
-    pub data: Vec<T>,
-    pub limit: Option<u64>,
-    pub offset: Option<u64>,
-    pub total: Option<u64>,
+pub enum Result<T> {
+    Ok(T),
+    Err(Error),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -57,14 +52,6 @@ pub struct Error {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    use reqwest::{Response, Result};
-
-    pub async fn fetch(url: &str) -> Result<Response> {
-        let client: reqwest::Client = reqwest::Client::new();
-        let res = client.get(url).send().await;
-        res
-    }
 
     #[tokio::test]
     async fn fetch_errors() {

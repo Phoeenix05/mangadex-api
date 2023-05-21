@@ -2,7 +2,7 @@ use super::*;
 
 /// Provides types for API endpoint `/manga`
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct List {
+pub struct MangaList {
     pub result: String,
     pub response: String,
     pub data: Vec<Manga<ListDataAttr>>,
@@ -49,7 +49,7 @@ pub struct ListDataAttr {
 
 /// Provides types for API endpoint `/manga/{chapterId}/feed`
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Feed {
+pub struct MangaFeed {
     pub result: String,
     pub response: String,
     pub data: Vec<Manga<FeedDataAttr>>,
@@ -83,14 +83,14 @@ pub struct FeedDataAttr {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::json::tests::fetch;
+    use crate::tests::fetch;
 
     #[tokio::test]
     async fn manga_list() {
         let res = fetch("https://api.mangadex.org/manga")
             .await
             .unwrap()
-            .json::<List>()
+            .json::<MangaList>()
             .await;
 
         assert!(res.is_ok(), "{res:#?}")
@@ -108,7 +108,7 @@ mod tests {
 
         for case in test_cases.into_iter() {
             let url = format!("https://api.mangadex.org/manga/{case}/feed");
-            let res = fetch(url.as_str()).await.unwrap().json::<Feed>().await;
+            let res = fetch(url.as_str()).await.unwrap().json::<MangaFeed>().await;
             assert!(res.is_ok(), "{res:#?}")
         }
     }

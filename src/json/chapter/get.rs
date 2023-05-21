@@ -2,7 +2,7 @@ use super::*;
 
 /// Provides types for API endpoint `/chapter`
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct List {
+pub struct ChapterList {
     pub result: String,
     pub response: String,
     pub data: Vec<ChapterData>,
@@ -56,14 +56,14 @@ pub struct DataAttr {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::json::tests::fetch;
+    use crate::tests::fetch;
 
     #[tokio::test]
     async fn chapter_list() {
         let res = fetch("https://api.mangadex.org/chapter")
             .await
             .unwrap()
-            .json::<List>()
+            .json::<ChapterList>()
             .await;
 
         assert!(res.is_ok(), "{res:#?}")
