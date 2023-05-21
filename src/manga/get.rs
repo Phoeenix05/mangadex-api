@@ -82,15 +82,8 @@ pub struct FeedDataAttr {
 
 #[cfg(test)]
 mod tests {
-    use reqwest::{Response, Result};
-
     use super::*;
-
-    async fn fetch(url: &str) -> Result<Response> {
-        let client: reqwest::Client = reqwest::Client::new();
-        let res = client.get(url).send().await;
-        res
-    }
+    use crate::tests::fetch;
 
     #[tokio::test]
     async fn manga_list() {
@@ -100,7 +93,7 @@ mod tests {
             .json::<List>()
             .await;
 
-        assert!(res.is_ok())
+        assert!(res.is_ok(), "{res:#?}")
     }
 
     #[tokio::test]
@@ -116,7 +109,7 @@ mod tests {
         for case in test_cases.into_iter() {
             let url = format!("https://api.mangadex.org/manga/{case}/feed");
             let res = fetch(url.as_str()).await.unwrap().json::<Feed>().await;
-            assert!(res.is_ok())
+            assert!(res.is_ok(), "{res:#?}")
         }
     }
 }

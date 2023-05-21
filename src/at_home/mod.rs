@@ -32,6 +32,6 @@ mod tests {
             .json::<AtHomeServer>()
             .await;
 
-        assert!(res.is_ok())
+        assert!(res.is_ok(), "{res:#?}")
     }
 }

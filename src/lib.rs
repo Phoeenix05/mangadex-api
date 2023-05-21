@@ -19,8 +19,8 @@ mod settings;
 mod upload;
 mod user;
 
-pub use manga::*;
 pub use chapter::*;
+pub use manga::*;
 
 use serde::{Deserialize, Serialize};
 
@@ -43,7 +43,6 @@ pub struct Relationship {
     pub attributes: Option<serde_json::Value>,
 }
 
-
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Err40X {
     pub result: String,
@@ -62,6 +61,14 @@ pub struct Error {
 mod tests {
     use super::*;
 
+    use reqwest::{Response, Result};
+
+    pub async fn fetch(url: &str) -> Result<Response> {
+        let client: reqwest::Client = reqwest::Client::new();
+        let res = client.get(url).send().await;
+        res
+    }
+
     #[allow(non_snake_case)]
     #[tokio::test]
     async fn fetch_errors() {
@@ -74,6 +81,6 @@ mod tests {
             .json::<Err40X>()
             .await;
 
-        assert!(res.is_ok())
+        assert!(res.is_ok(), "{res:#?}")
     }
 }
