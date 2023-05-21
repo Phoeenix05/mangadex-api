@@ -23,9 +23,9 @@ pub struct ListDataAttr {
     #[serde(rename = "originalLanguage")]
     pub original_language: String,
     #[serde(rename = "lastVolume")]
-    pub last_volume: String,
+    pub last_volume: Option<String>,
     #[serde(rename = "lastChapter")]
-    pub last_chapter: String,
+    pub last_chapter: Option<String>,
     #[serde(rename = "publicationDemographic")]
     pub publication_demographic: Option<String>,
     pub status: String,
@@ -96,6 +96,7 @@ mod tests {
         assert!(res.is_ok(), "{res:#?}")
     }
 
+    #[ignore = "wrapper::get::tests::manga_feed does basically the same thing"]
     #[tokio::test]
     async fn manga_feed() {
         let test_cases = vec![
