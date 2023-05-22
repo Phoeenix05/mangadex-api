@@ -85,6 +85,7 @@ mod tests {
     use super::*;
     use crate::tests::fetch;
 
+    #[ignore = "wrapper::get::tests::manga_list does basically the same thing"]
     #[tokio::test]
     async fn manga_list() {
         let res = fetch("https://api.mangadex.org/manga")
