@@ -4,13 +4,30 @@ use reqwest::Url;
 use uuid::Uuid;
 
 use crate::{
-    config::{MangaFeedConfig, MangaListConfig},
+    config::*,
     json::{
         at_home::AtHomeServer,
         manga::{MangaFeed, MangaList},
         Error, Result,
     },
 };
+
+// use serde::{Deserialize, Deserializer};
+
+// async fn fetch_api_route<'a, A, B: Config>(url: String, config: B) -> Result<A> where A: Deserializer<'a>{
+//     let client = reqwest::Client::new();
+//     let url = Url::from_str(&url).unwrap();
+
+//     let res = client.get(url).send().await.unwrap();
+
+//     if res.status().is_success() {
+//         let json: A = res.json().await.unwrap();
+//         Result::Ok(json)
+//     } else {
+//         let json: Error = res.json().await.unwrap();
+//         Result::Err(json)
+//     }
+// }
 
 pub async fn get_athome_server(chapter_id: Uuid) -> Result<AtHomeServer> {
     let client = reqwest::Client::new();
