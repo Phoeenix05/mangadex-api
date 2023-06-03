@@ -109,6 +109,7 @@ mod tests {
             "bd6d0982-0091-4945-ad70-c028ed3c0917",
             "c7421641-dc50-4a3c-80a5-5cdcb2cae890",
             "1e3feba8-0c4d-4465-b3a3-e9a2a4451bd1",
+            "e6eb6bd0-0285-4fac-a6da-9bc4234ac1bb",
         ];
 
         for case in test_cases.into_iter() {

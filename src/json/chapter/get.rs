@@ -32,24 +32,19 @@ pub struct ChapterData {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct DataAttr {
     pub title: Option<String>,
     pub volume: Option<String>,
     pub chapter: String,
     pub pages: u64,
-    #[serde(rename = "translatedLanguage")]
     pub translated_language: String,
     pub uploader: Option<uuid::Uuid>,
-    #[serde(rename = "externalUrl")]
     pub external_url: Option<String>,
     pub version: u64,
-    #[serde(rename = "createdAt")]
     pub created_at: String,
-    #[serde(rename = "updatedAt")]
     pub updated_at: String,
-    #[serde(rename = "publishAt")]
-    pub published_at: String,
-    #[serde(rename = "readableAt")]
+    pub publish_at: String,
     pub readable_at: String,
 }
 
