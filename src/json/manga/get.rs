@@ -1,5 +1,14 @@
 use super::*;
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Manga<T> {
+    pub id: uuid::Uuid,
+    #[serde(rename = "type")]
+    pub data_type: String,
+    pub attributes: T,
+    pub relationships: Vec<Relationship>,
+}
+
 /// Provides types for API endpoint `/manga`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MangaList {

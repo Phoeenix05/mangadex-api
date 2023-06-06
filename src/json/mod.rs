@@ -1,23 +1,27 @@
-pub mod at_home;
-pub mod auth;
-pub mod author;
-pub mod captcha;
-pub mod chapter;
-pub mod cover;
-pub mod customlist;
-pub mod feed;
-pub mod follows;
-pub mod forums;
-pub mod infrastructure;
-pub mod legacy;
-pub mod manga;
-pub mod rating;
-pub mod readmarker;
-pub mod report;
-pub mod scanlationgroup;
-pub mod settings;
-pub mod upload;
-pub mod user;
+mod at_home;
+mod auth;
+mod author;
+mod captcha;
+mod chapter;
+mod cover;
+mod customlist;
+mod feed;
+mod follows;
+mod forums;
+mod infrastructure;
+mod legacy;
+mod manga;
+mod rating;
+mod readmarker;
+mod report;
+mod scanlationgroup;
+mod settings;
+mod upload;
+mod user;
+
+pub use at_home::AtHomeServer;
+pub use chapter::{Chapter, ChapterList};
+pub use manga::{MangaFeed, MangaList};
 
 use serde::{Deserialize, Serialize};
 

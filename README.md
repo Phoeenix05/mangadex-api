@@ -26,3 +26,9 @@ This project offers an API wrapper and Rust types for [MangaDex API (5.9)](https
 | settings        |        |             |
 | upload          |        |             |
 | user            |        |             |
+
+<br/>
+
+### Todo
+- [ ] Chapter / Manga downloader
+

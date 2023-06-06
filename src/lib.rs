@@ -1,12 +1,8 @@
-mod prelude {
-    use super::*;
-
-    pub use config::*;
-    pub use wrapper::*;
-}
-
 pub mod config;
 pub mod json;
+pub mod prelude;
+
+#[cfg(feature = "wrapper")]
 pub mod wrapper;
 
 #[cfg(test)]

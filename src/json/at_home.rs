@@ -6,11 +6,12 @@ pub struct AtHomeServer {
     pub result: String,
     #[serde(rename = "baseUrl")]
     pub base_url: String,
-    pub chapter: Chapter,
+    #[serde(rename = "chapter")]
+    pub data: Data,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Chapter {
+pub struct Data {
     pub hash: String,
     pub data: Vec<String>,
     #[serde(rename = "dataSaver")]
