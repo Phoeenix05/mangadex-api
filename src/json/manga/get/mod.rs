@@ -10,7 +10,7 @@ use crate::json::{Data, Response};
 
 pub type Manga = Response<Data<Attributes>>;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Copy, Clone, Serialize, DeserializeDebug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Attributes {
     pub title: serde_json::Value,
