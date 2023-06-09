@@ -1,39 +1,13 @@
-use super::*;
+use serde::Deserialize;
 
-/// Provides types for API endpoint `/chapter`
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ChapterList {
-    pub result: String,
-    pub response: String,
-    pub data: Vec<ChapterData>,
-    pub limit: Option<u64>,
-    pub offset: Option<u64>,
-    pub total: Option<u64>,
-}
+use crate::json::{Data, Response};
 
-/// Provides types for API endpoint `/chapter/{id}`
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Chapter {
-    pub result: String,
-    pub response: String,
-    pub data: ChapterData,
-    pub limit: Option<u64>,
-    pub offset: Option<u64>,
-    pub total: Option<u64>,
-}
+pub type Chapter = Response<Data<Attributes>>;
+pub type ChapterList = Response<Vec<Data<Attributes>>>;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ChapterData {
-    pub id: uuid::Uuid,
-    #[serde(rename = "type")]
-    pub data_type: String,
-    pub attributes: DataAttr,
-    pub relationships: Vec<Relationship>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct DataAttr {
+pub struct Attributes {
     pub title: Option<String>,
     pub volume: Option<String>,
     pub chapter: String,
@@ -54,22 +28,22 @@ mod tests {
     use crate::tests::fetch;
 
     #[tokio::test]
-    async fn chapter_list() {
-        let res = fetch("https://api.mangadex.org/chapter")
+    async fn test() {
+        let res = fetch("https://api.mangadex.org/chapter/029b7226-5673-41d2-9ae6-09793f200bd9")
             .await
             .unwrap()
-            .json::<ChapterList>()
+            .json::<Chapter>()
             .await;
 
         assert!(res.is_ok(), "{res:#?}")
     }
 
     #[tokio::test]
-    async fn chapter() {
-        let res = fetch("https://api.mangadex.org/chapter/029b7226-5673-41d2-9ae6-09793f200bd9")
+    async fn test_list() {
+        let res = fetch("https://api.mangadex.org/chapter")
             .await
             .unwrap()
-            .json::<Chapter>()
+            .json::<ChapterList>()
             .await;
 
         assert!(res.is_ok(), "{res:#?}")

@@ -22,7 +22,6 @@ pub struct Data {
 mod tests {
     use super::*;
 
-    #[ignore = "wrapper::get::tests::athome_sever does basically the same thing"]
     #[tokio::test]
     async fn server() {
         let client = reqwest::Client::new();

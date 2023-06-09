@@ -1,36 +1,54 @@
 mod at_home;
-mod auth;
+// mod auth;
 mod author;
-mod captcha;
+// mod captcha;
 mod chapter;
 mod cover;
-mod customlist;
-mod feed;
-mod follows;
-mod forums;
-mod infrastructure;
-mod legacy;
+// mod customlist;
+// mod feed;
+// mod follows;
+// mod forums;
+// mod infrastructure;
+// mod legacy;
 mod manga;
-mod rating;
-mod readmarker;
-mod report;
-mod scanlationgroup;
-mod settings;
-mod upload;
-mod user;
+// mod rating;
+// mod readmarker;
+// mod report;
+// mod scanlationgroup;
+// mod settings;
+// mod upload;
+// mod user;
 
-pub use at_home::AtHomeServer;
-pub use chapter::{Chapter, ChapterList};
-pub use manga::{MangaFeed, MangaList};
+pub use at_home::*;
+pub use author::*;
+pub use chapter::*;
+pub use cover::*;
+pub use manga::*;
 
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 
-pub enum Result<T> {
-    Ok(T),
-    Err(Error),
+#[derive(Debug, Deserialize)]
+#[serde(bound = "T: serde::de::DeserializeOwned")]
+pub struct Response<T> {
+    pub result: String,
+    pub response: String,
+    pub data: T,
+    pub limit: Option<u64>,
+    pub offset: Option<u64>,
+    pub total: Option<u64>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Deserialize)]
+#[serde(bound = "T: serde::de::DeserializeOwned")]
+pub struct Data<T> {
+    pub id: uuid::Uuid,
+    #[serde(rename = "type")]
+    pub data_type: String,
+    pub attributes: T,
+    pub relationships: Vec<Relationship>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
 pub struct Relationship {
     pub id: uuid::Uuid,
     #[serde(rename = "type")]
@@ -39,13 +57,13 @@ pub struct Relationship {
     pub attributes: Option<serde_json::Value>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Err40X {
     pub result: String,
     pub errors: Vec<Error>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Error {
     pub id: String,
     pub status: u64,

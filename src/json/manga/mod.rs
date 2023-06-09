@@ -1,5 +1,2 @@
-use super::*;
-use serde::{Deserialize, Serialize};
-
 mod get;
-pub use get::{MangaFeed, MangaList};
+pub use get::{Manga, MangaFeed, MangaList};
