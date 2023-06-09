@@ -5,10 +5,10 @@ use crate::json::{Data, Response};
 pub type Cover = Response<Data<Attributes>>;
 pub type CoverArtList = Response<Vec<Data<Attributes>>>;
 
-#[derive(Debug, Copy, Clone, Serialize, DeserializeDebug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Attributes {
-    pub volume: String,
+    pub volume: Option<String>,
     pub file_name: String,
     pub description: String,
     pub locale: String,

@@ -5,7 +5,7 @@ use crate::json::{Data, Response};
 pub type Chapter = Response<Data<Attributes>>;
 pub type ChapterList = Response<Vec<Data<Attributes>>>;
 
-#[derive(Debug, Copy, Clone, Serialize, DeserializeDebug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Attributes {
     pub title: Option<String>,

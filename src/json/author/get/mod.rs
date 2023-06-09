@@ -8,7 +8,7 @@ use crate::json::{Data, Response};
 
 pub type Author = Response<Data<Attributes>>;
 
-#[derive(Debug, Copy, Clone, Serialize, DeserializeDebug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Attributes {
     pub name: String,
