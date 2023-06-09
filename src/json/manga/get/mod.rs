@@ -4,13 +4,13 @@ mod list;
 pub use feed::MangaFeed;
 pub use list::MangaList;
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::json::{Data, Response};
 
 pub type Manga = Response<Data<Attributes>>;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Attributes {
     pub title: serde_json::Value,

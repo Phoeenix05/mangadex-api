@@ -1,11 +1,11 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::json::{Data, Response};
 
 pub type Cover = Response<Data<Attributes>>;
 pub type CoverArtList = Response<Vec<Data<Attributes>>>;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Attributes {
     pub volume: String,

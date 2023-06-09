@@ -1,11 +1,11 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::json::{Data, Response};
 
 pub type Chapter = Response<Data<Attributes>>;
 pub type ChapterList = Response<Vec<Data<Attributes>>>;
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Attributes {
     pub title: Option<String>,

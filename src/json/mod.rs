@@ -25,10 +25,10 @@ pub use chapter::*;
 pub use cover::*;
 pub use manga::*;
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize)]
-#[serde(bound = "T: serde::de::DeserializeOwned")]
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(bound = "T: serde::de::DeserializeOwned + serde::ser::Serialize")]
 pub struct Response<T> {
     pub result: String,
     pub response: String,
@@ -38,8 +38,8 @@ pub struct Response<T> {
     pub total: Option<u64>,
 }
 
-#[derive(Debug, Deserialize)]
-#[serde(bound = "T: serde::de::DeserializeOwned")]
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(bound = "T: serde::de::DeserializeOwned + serde::ser::Serialize")]
 pub struct Data<T> {
     pub id: uuid::Uuid,
     #[serde(rename = "type")]
@@ -48,7 +48,7 @@ pub struct Data<T> {
     pub relationships: Vec<Relationship>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Relationship {
     pub id: uuid::Uuid,
     #[serde(rename = "type")]
@@ -57,13 +57,13 @@ pub struct Relationship {
     pub attributes: Option<serde_json::Value>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Err40X {
     pub result: String,
     pub errors: Vec<Error>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Error {
     pub id: String,
     pub status: u64,

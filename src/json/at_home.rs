@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 /// Provides types for API endpoint `/at-home/server/{chapterId}`
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct AtHomeServer {
     pub result: String,
     #[serde(rename = "baseUrl")]
@@ -10,7 +10,7 @@ pub struct AtHomeServer {
     pub data: Data,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Data {
     pub hash: String,
     pub data: Vec<String>,

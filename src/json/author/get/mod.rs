@@ -2,13 +2,13 @@ mod list;
 
 pub use list::AuthorList;
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::json::{Data, Response};
 
 pub type Author = Response<Data<Attributes>>;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Attributes {
     pub name: String,
