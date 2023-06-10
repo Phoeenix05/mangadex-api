@@ -3,14 +3,16 @@ name = "mangadex-api"
 version = "0.0.3"
 edition = "2021"
 
+[dev-dependencies]
+tokio = { version = "1.28.1", features = ["macros"] }
+reqwest = { version = "0.11.18", features = ["json"] }
+
 [dependencies]
 serde = { version = "1.0.163", features = ["derive"] }
 serde_json = "1.0.96"
 uuid = { version = "1.3.3", features = ["serde"] }
-reqwest = { version = "0.11.18", features = ["json"] }
+reqwest = { version = "0.11.18", features = ["json"], optional = true }
+anyhow = "1.0.71"
 
 [features]
-wrapper = []
-
-[dev-dependencies]
-tokio = { version = "1.28.1", features = ["macros"] }
+wrapper = ["reqwest"]
