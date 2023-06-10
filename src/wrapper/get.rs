@@ -78,7 +78,16 @@ pub async fn get_author_list() -> Result<AuthorList, Err40X> {
 }
 
 pub async fn get_cover(uuid: Uuid) -> Result<Cover, Err40X> {
-    let url = url(format!("/cover/{uuid}"), None);
+    let res = get_manga(uuid).await?;
+    let cover_uuid = res
+        .data
+        .relationships
+        .into_iter()
+        .find(|r| r.data_type == "cover_art")
+        .unwrap()
+        .uuid;
+
+    let url = url(format!("/cover/{cover_uuid}"), None);
     let res = fetch::<Cover>(url).await;
     res
 }

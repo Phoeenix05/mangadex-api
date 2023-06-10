@@ -8,10 +8,10 @@ This project offers an API wrapper and Rust types for [MangaDex API (5.9)](https
 | --------------- | ------ | ----------- |
 | at_home         | v0.0.1 | v0.0.2      |
 | auth            |        |             |
-| author          | WIP    |             |
+| author          | WIP    | WIP         |
 | captcha         |        |             |
-| chapter         | WIP    |             |
-| cover           | WIP    |             |
+| chapter         | WIP    | WIP         |
+| cover           | WIP    | WIP         |
 | customlist      |        |             |
 | feed            |        |             |
 | follows         |        |             |
@@ -30,5 +30,5 @@ This project offers an API wrapper and Rust types for [MangaDex API (5.9)](https
 <br/>
 
 ### Todo
-- [ ] Chapter / Manga downloader
 
+- [ ] Chapter / Manga downloader

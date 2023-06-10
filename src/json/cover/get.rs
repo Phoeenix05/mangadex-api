@@ -38,7 +38,7 @@ mod tests {
             .into_iter()
             .find(|rel| rel.data_type == "cover_art")
             .unwrap()
-            .id;
+            .uuid;
 
         let url = format!("https://api.mangadex.org/cover/{cover_uuid}");
         let cover = fetch(url.as_str()).await.unwrap().json::<Cover>().await;

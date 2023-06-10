@@ -41,7 +41,8 @@ pub struct Response<T> {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(bound = "T: serde::de::DeserializeOwned + serde::ser::Serialize")]
 pub struct Data<T> {
-    pub id: uuid::Uuid,
+    #[serde(rename = "id")]
+    pub uuid: uuid::Uuid,
     #[serde(rename = "type")]
     pub data_type: String,
     pub attributes: T,
@@ -50,7 +51,8 @@ pub struct Data<T> {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Relationship {
-    pub id: uuid::Uuid,
+    #[serde(rename = "id")]
+    pub uuid: uuid::Uuid,
     #[serde(rename = "type")]
     pub data_type: String,
     pub related: Option<String>,
