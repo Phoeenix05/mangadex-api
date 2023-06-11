@@ -19,13 +19,11 @@ mod manga;
 // mod upload;
 // mod user;
 
-pub use at_home::*;
-pub use author::*;
-pub use chapter::*;
-pub use cover::*;
-pub use manga::*;
+pub mod types;
 
 use serde::{Deserialize, Serialize};
+
+pub trait APIResponse {}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(bound = "T: serde::de::DeserializeOwned + serde::ser::Serialize")]
@@ -37,6 +35,8 @@ pub struct Response<T> {
     pub offset: Option<u64>,
     pub total: Option<u64>,
 }
+
+impl<T> APIResponse for Response<T> {}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(bound = "T: serde::de::DeserializeOwned + serde::ser::Serialize")]
@@ -71,23 +71,4 @@ pub struct Error {
     pub status: u64,
     pub title: String,
     pub detail: String,
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[tokio::test]
-    async fn fetch_errors() {
-        let client = reqwest::Client::new();
-        let res = client
-            .get("https://api.mangadex.org/fail")
-            .send()
-            .await
-            .unwrap()
-            .json::<Err40X>()
-            .await;
-
-        assert!(res.is_ok(), "{res:#?}")
-    }
 }

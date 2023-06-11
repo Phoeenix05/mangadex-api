@@ -1,2 +1,2 @@
 mod get;
-pub use get::{Manga, MangaFeed, MangaList};
+pub use get::*;

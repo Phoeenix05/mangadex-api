@@ -1,12 +1,4 @@
-mod list;
-
-pub use list::AuthorList;
-
 use serde::{Deserialize, Serialize};
-
-use crate::json::{Data, Response};
-
-pub type Author = Response<Data<Attributes>>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -30,21 +22,4 @@ pub struct Attributes {
     pub version: u64,
     pub created_at: Option<String>,
     pub updated_at: Option<String>,
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use crate::tests::fetch;
-
-    #[tokio::test]
-    async fn test() {
-        let res = fetch("https://api.mangadex.org/author/d7f4dd59-4ffc-44df-b938-173a6140ac55")
-            .await
-            .unwrap()
-            .json::<Author>()
-            .await;
-
-        assert!(res.is_ok(), "{res:#?}")
-    }
 }

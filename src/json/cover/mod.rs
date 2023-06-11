@@ -1,2 +1,2 @@
 mod get;
-pub use get::{Cover, CoverArtList};
+pub use get::*;

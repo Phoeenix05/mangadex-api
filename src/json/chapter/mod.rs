@@ -1,2 +1,2 @@
 mod get;
-pub use get::{Chapter, ChapterList};
+pub use get::*;
