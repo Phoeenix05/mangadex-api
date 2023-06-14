@@ -3,7 +3,6 @@ use uuid::Uuid;
 
 pub mod error;
 
-pub mod athome;
 pub mod manga;
 
 #[derive(Debug, Clone, Deserialize)]

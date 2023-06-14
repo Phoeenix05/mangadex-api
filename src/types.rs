@@ -2,12 +2,64 @@ pub mod get {
     use crate::json::MangaDexAPIResponse;
     use crate::json::*;
 
-    pub use crate::json::athome::AtHomeServer;
+    use serde::Deserialize;
+    use url::Url;
+
+    /// API route AtHomeServer [`/at-home/server/{chapterId}`](https://api.mangadex.org/at-home/server/af456519-3791-47c3-af8a-23ed894b5dd8)
+    /// 
+    /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/AtHome/operation/get-at-home-server-chapterId)
+    #[derive(Debug, Clone, Deserialize)]
+    #[serde(rename_all = "camelCase")]
+    pub struct AtHomeServer {
+        pub result: String,
+        pub base_url: Url,
+        pub chapter: Images,
+    }
+
+    #[derive(Debug, Clone, Deserialize)]
+    #[serde(rename_all = "camelCase")]
+    pub struct Images {
+        pub hash: String,
+        pub data: Vec<String>,
+        pub data_saver: Vec<String>,
+    }
+
+    /// API route Author [`/author/{authorId}`](http://api.mangadex.org/author/c6c278e1-268b-4b7b-84ec-3289bd0c08f0)
+    ///
+    /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Author/operation/get-author-id)
     pub type Author = MangaDexAPIResponse<serde_json::Value>;
+
+    /// API route Chapter [`/chapter/{chapterId}`](http://api.mangadex.org/chapter/af456519-3791-47c3-af8a-23ed894b5dd8)
+    ///
+    /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Chapter)
     pub type Chapter = MangaDexAPIResponse<serde_json::Value>;
+
+    /// API route Cover [`/cover/{coverId}`](https://api.mangadex.org/cover/1e711e37-7f19-482a-b643-fe6e89b61935).
+    /// Requires cover id that can be obtained from the relationships of Manga
+    ///
+    /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Cover/operation/get-cover-id)
     pub type Cover = MangaDexAPIResponse<serde_json::Value>;
 
+    /// API route Manga [`/manga/{mangaId}`](https://api.mangadex.org/manga/77bee52c-d2d6-44ad-a33a-1734c1fe696a).
+    ///
+    /// This API route returns full info about the specified manga.
+    ///
+    /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Manga/operation/get-manga-id)
     pub type Manga = MangaDexAPIResponse<manga::Manga>;
+
+    /// API route MangaFeed [`/manga/{mangaId}/feed`](https://api.mangadex.org/manga/77bee52c-d2d6-44ad-a33a-1734c1fe696a)
+    ///
+    /// This API route returns a list consisting of specified manga's chapters. The amount of chapters returned is 500 at
+    /// maximum.
+    ///
+    /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Manga/operation/get-manga-id-feed)
     pub type MangaFeed = MangaDexAPIResponse<serde_json::Value>;
+
+    /// API route MangaList [`/manga`](https://api.mangadex.org/manga/)
+    ///
+    /// This API route returns a list of mangas. The amount of mangas returned is 500 at
+    /// maximum.
+    ///
+    /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Manga/operation/get-search-manga)
     pub type MangaList = MangaDexAPIResponse<manga::MangaList>;
 }
