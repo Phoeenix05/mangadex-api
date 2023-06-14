@@ -1,6 +1,8 @@
 use serde::Deserialize;
 use uuid::Uuid;
 
+pub mod error;
+
 pub mod athome;
 pub mod manga;
 
