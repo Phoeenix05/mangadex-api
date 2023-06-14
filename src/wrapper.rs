@@ -1,23 +1,62 @@
-use std::sync::Arc;
-
-use http_cache_reqwest::{CACacheManager, Cache, CacheMode, HttpCache};
-use reqwest::Client;
-use reqwest_middleware::{ClientBuilder, ClientWithMiddleware};
 use uuid::Uuid;
 
+use crate::util::CLIENT;
 use crate::{json::error::ErrorResponse, types::get::*};
 
-lazy_static::lazy_static! {
-    static ref CLIENT: Arc<ClientWithMiddleware> = {
-        let client = ClientBuilder::new(Client::new())
-            .with(Cache(HttpCache {
-                mode: CacheMode::Default,
-                manager: CACacheManager::default(),
-                options: None
-            }))
-            .build();
-        Arc::new(client)
-    };
+///// Macros
+macro_rules! get_api_unwrap {
+    ($url:expr) => {{
+        let res = CLIENT.get($url).send().await.unwrap();
+        if res.status().is_success() {
+            let json = res.json().await.unwrap();
+            Ok(json)
+        } else {
+            let json = res.json().await.unwrap();
+            Err(json)
+        }
+    }};
+}
+
+#[allow(unused_macros)]
+macro_rules! post_put_api_unwrap {
+    ($url:expr, $body:expr) => {{
+        let res = CLIENT.post($url).body($body).send().await.unwrap();
+        if res.status().is_success() {
+            let json = res.json().await.unwrap();
+            Ok(json)
+        } else {
+            let json = res.json().await.unwrap();
+            Err(json)
+        }
+    }};
+}
+
+// #[allow(unused_macros)]
+// macro_rules! put_api_unwrap {
+//     ($url:expr, $body:expr) => {{
+//         let res = CLIENT.put($url).body($body).send().await.unwrap();
+//         if res.status().is_success() {
+//             let json = res.json().await.unwrap();
+//             Ok(json)
+//         } else {
+//             let json = res.json().await.unwrap();
+//             Err(json)
+//         }
+//     }};
+// }
+
+#[allow(unused_macros)]
+macro_rules! del_api_unwrap {
+    ($url:expr) => {{
+        let res = CLIENT.delete($url).send().await.unwrap();
+        if res.status().is_success() {
+            let json = res.json().await.unwrap();
+            Ok(json)
+        } else {
+            let json = res.json().await.unwrap();
+            Err(json)
+        }
+    }};
 }
 
 #[cfg(any(feature = "wrapper", feature = "dl"))]
@@ -38,42 +77,27 @@ where
 #[cfg(any(feature = "wrapper", feature = "dl"))]
 #[async_trait::async_trait]
 impl Endpoint for AtHomeServer {
-    async fn get() -> Result<Self, ErrorResponse> {
-        todo!()
+    async fn get_uuid(chapter_uuid: Uuid) -> Result<Self, ErrorResponse> {
+        let url = format!("https://api.mangadex.org/at-home/server/{}", chapter_uuid);
+        get_api_unwrap!(url)
     }
 }
 
 #[cfg(any(feature = "wrapper"))]
 #[async_trait::async_trait]
 impl Endpoint for Manga {
-    async fn get_uuid(uuid: Uuid) -> Result<Self, ErrorResponse> {
-        let url = format!("https://api.mangadex.org/manga/{}", uuid);
-        let res = CLIENT.get(url).send().await.unwrap();
-
-        if res.status().is_success() {
-            let json = res.json().await.unwrap();
-            Ok(json)
-        } else {
-            let json = res.json().await.unwrap();
-            Err(json)
-        }
+    async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
+        let url = format!("https://api.mangadex.org/manga/{}", manga_uuid);
+        get_api_unwrap!(url)
     }
 }
 
 #[cfg(any(feature = "wrapper", feature = "dl"))]
 #[async_trait::async_trait]
 impl Endpoint for MangaFeed {
-    async fn get_uuid(uuid: Uuid) -> Result<Self, ErrorResponse> {
-        let url = format!("https://api.mangadex.org/manga/{}/feed", uuid);
-        let res = CLIENT.get(url).send().await.unwrap();
-
-        if res.status().is_success() {
-            let json = res.json().await.unwrap();
-            Ok(json)
-        } else {
-            let json = res.json().await.unwrap();
-            Err(json)
-        }
+    async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
+        let url = format!("https://api.mangadex.org/manga/{}/feed", manga_uuid);
+        get_api_unwrap!(url)
     }
 }
 
@@ -81,18 +105,6 @@ impl Endpoint for MangaFeed {
 #[async_trait::async_trait]
 impl Endpoint for MangaList {
     async fn get() -> Result<Self, ErrorResponse> {
-        let res = CLIENT
-            .get("https://api.mangadex.org/manga")
-            .send()
-            .await
-            .unwrap();
-
-        if res.status().is_success() {
-            let json = res.json().await.unwrap();
-            Ok(json)
-        } else {
-            let json = res.json().await.unwrap();
-            Err(json)
-        }
+        get_api_unwrap!("https://api.mangadex.org/manga")
     }
 }
