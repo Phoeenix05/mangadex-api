@@ -6,7 +6,7 @@ pub mod get {
     use url::Url;
 
     /// API route AtHomeServer [`/at-home/server/{chapterId}`](https://api.mangadex.org/at-home/server/af456519-3791-47c3-af8a-23ed894b5dd8)
-    /// 
+    ///
     /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/AtHome/operation/get-at-home-server-chapterId)
     #[derive(Debug, Clone, Deserialize)]
     #[serde(rename_all = "camelCase")]
@@ -32,7 +32,12 @@ pub mod get {
     /// API route Chapter [`/chapter/{chapterId}`](http://api.mangadex.org/chapter/af456519-3791-47c3-af8a-23ed894b5dd8)
     ///
     /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Chapter)
-    pub type Chapter = MangaDexAPIResponse<serde_json::Value>;
+    pub type Chapter = MangaDexAPIResponse<chapter::Chapter>;
+
+    /// API route Chapter [`/chapter`](http://api.mangadex.org/chapter)
+    ///
+    /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Chapter)
+    pub type ChapterList = MangaDexAPIResponse<chapter::ChapterList>;
 
     /// API route Cover [`/cover/{coverId}`](https://api.mangadex.org/cover/1e711e37-7f19-482a-b643-fe6e89b61935).
     /// Requires cover id that can be obtained from the relationships of Manga

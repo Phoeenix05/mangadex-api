@@ -3,6 +3,8 @@ use uuid::Uuid;
 
 pub mod error;
 
+pub mod chapter;
+pub mod cover;
 pub mod manga;
 
 #[derive(Debug, Clone, Deserialize)]

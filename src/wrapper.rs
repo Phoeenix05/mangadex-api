@@ -1,6 +1,6 @@
 use uuid::Uuid;
 
-use crate::util::CLIENT;
+use crate::util::{BASE_URL, CLIENT};
 use crate::{json::error::ErrorResponse, types::get::*};
 
 ///// Macros
@@ -78,8 +78,25 @@ where
 #[async_trait::async_trait]
 impl Endpoint for AtHomeServer {
     async fn get_uuid(chapter_uuid: Uuid) -> Result<Self, ErrorResponse> {
-        let url = format!("https://api.mangadex.org/at-home/server/{}", chapter_uuid);
+        let url = format!("{BASE_URL}/at-home/server/{}", chapter_uuid);
         get_api_unwrap!(url)
+    }
+}
+
+#[cfg(any(feature = "wrapper"))]
+#[async_trait::async_trait]
+impl Endpoint for Chapter {
+    async fn get_uuid(chapter_uuid: Uuid) -> Result<Self, ErrorResponse> {
+        let url = format!("{BASE_URL}/chapter/{}", chapter_uuid);
+        get_api_unwrap!(url)
+    }
+}
+
+#[cfg(any(feature = "wrapper"))]
+#[async_trait::async_trait]
+impl Endpoint for ChapterList {
+    async fn get() -> Result<Self, ErrorResponse> {
+        get_api_unwrap!(format!("{BASE_URL}/chapter"))
     }
 }
 
@@ -87,7 +104,7 @@ impl Endpoint for AtHomeServer {
 #[async_trait::async_trait]
 impl Endpoint for Manga {
     async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
-        let url = format!("https://api.mangadex.org/manga/{}", manga_uuid);
+        let url = format!("{BASE_URL}/manga/{}", manga_uuid);
         get_api_unwrap!(url)
     }
 }
@@ -96,7 +113,7 @@ impl Endpoint for Manga {
 #[async_trait::async_trait]
 impl Endpoint for MangaFeed {
     async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
-        let url = format!("https://api.mangadex.org/manga/{}/feed", manga_uuid);
+        let url = format!("{BASE_URL}/manga/{}/feed", manga_uuid);
         get_api_unwrap!(url)
     }
 }
@@ -105,6 +122,6 @@ impl Endpoint for MangaFeed {
 #[async_trait::async_trait]
 impl Endpoint for MangaList {
     async fn get() -> Result<Self, ErrorResponse> {
-        get_api_unwrap!("https://api.mangadex.org/manga")
+        get_api_unwrap!(format!("{BASE_URL}/manga"))
     }
 }
