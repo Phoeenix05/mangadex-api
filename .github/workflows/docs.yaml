@@ -1,0 +1,31 @@
+name: Build and Deploy Documentation
+
+on:
+  push:
+    branches:
+      - main  # Replace this with the name of your default branch, if different
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+
+    - name: Build documentation
+      run: cargo doc --no-deps
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: target/doc
+        publish_branch: docs
+        # cname: your-custom-domain.example  # Optional: replace with your custom domain, if you have one
