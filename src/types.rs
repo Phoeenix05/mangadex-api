@@ -8,6 +8,10 @@ pub mod get {
     /// API route AtHomeServer [`/at-home/server/{chapterId}`](https://api.mangadex.org/at-home/server/af456519-3791-47c3-af8a-23ed894b5dd8)
     ///
     /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/AtHome/operation/get-at-home-server-chapterId)
+    ///
+    /// **NOTE:**
+    /// `AtHomeServer` is defined here in `types.rs` as it is currently the only type
+    /// that can't be defined with `MangaDexAPIResponse` struct.
     #[derive(Debug, Clone, Deserialize)]
     #[serde(rename_all = "camelCase")]
     pub struct AtHomeServer {
@@ -43,7 +47,12 @@ pub mod get {
     /// Requires cover id that can be obtained from the relationships of Manga
     ///
     /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Cover/operation/get-cover-id)
-    pub type Cover = MangaDexAPIResponse<serde_json::Value>;
+    pub type Cover = MangaDexAPIResponse<cover::Cover>;
+
+    /// API route Cover [`/cover`](https://api.mangadex.org/cover). Returns a list of manga covers.
+    ///
+    /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Cover/operation/get-cover)
+    pub type CoverArtList = MangaDexAPIResponse<cover::CoverArtList>;
 
     /// API route Manga [`/manga/{mangaId}`](https://api.mangadex.org/manga/77bee52c-d2d6-44ad-a33a-1734c1fe696a).
     ///

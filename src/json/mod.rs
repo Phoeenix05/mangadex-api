@@ -24,7 +24,7 @@ pub struct Data<T> {
     #[serde(rename = "type")]
     pub data_type: String,
     pub attributes: T,
-    pub relationships: serde_json::Value,
+    pub relationships: Vec<Relationship>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -33,8 +33,8 @@ pub struct Relationship {
     pub id: Uuid,
     #[serde(rename = "type")]
     pub data_type: String,
-    pub related: String,
-    pub attributes: serde_json::Value,
+    pub related: Option<String>,
+    pub attributes: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

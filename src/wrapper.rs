@@ -3,7 +3,6 @@ use uuid::Uuid;
 use crate::util::{BASE_URL, CLIENT};
 use crate::{json::error::ErrorResponse, types::get::*};
 
-///// Macros
 macro_rules! get_api_unwrap {
     ($url:expr) => {{
         let res = CLIENT.get($url).send().await.unwrap();
@@ -74,54 +73,101 @@ where
     }
 }
 
-#[cfg(any(feature = "wrapper", feature = "dl"))]
-#[async_trait::async_trait]
-impl Endpoint for AtHomeServer {
-    async fn get_uuid(chapter_uuid: Uuid) -> Result<Self, ErrorResponse> {
-        let url = format!("{BASE_URL}/at-home/server/{}", chapter_uuid);
-        get_api_unwrap!(url)
+mod athome {
+    use super::*;
+
+    #[cfg(any(feature = "wrapper", feature = "dl"))]
+    #[async_trait::async_trait]
+    impl Endpoint for AtHomeServer {
+        async fn get_uuid(chapter_uuid: Uuid) -> Result<Self, ErrorResponse> {
+            let url = format!("{BASE_URL}/at-home/server/{}", chapter_uuid);
+            get_api_unwrap!(url)
+        }
     }
 }
 
-#[cfg(any(feature = "wrapper"))]
-#[async_trait::async_trait]
-impl Endpoint for Chapter {
-    async fn get_uuid(chapter_uuid: Uuid) -> Result<Self, ErrorResponse> {
-        let url = format!("{BASE_URL}/chapter/{}", chapter_uuid);
-        get_api_unwrap!(url)
+mod chapter {
+    use super::*;
+
+    #[cfg(any(feature = "wrapper"))]
+    #[async_trait::async_trait]
+    impl Endpoint for Chapter {
+        async fn get_uuid(chapter_uuid: Uuid) -> Result<Self, ErrorResponse> {
+            let url = format!("{BASE_URL}/chapter/{}", chapter_uuid);
+            get_api_unwrap!(url)
+        }
+    }
+
+    #[cfg(any(feature = "wrapper"))]
+    #[async_trait::async_trait]
+    impl Endpoint for ChapterList {
+        async fn get() -> Result<Self, ErrorResponse> {
+            get_api_unwrap!(format!("{BASE_URL}/chapter"))
+        }
     }
 }
 
-#[cfg(any(feature = "wrapper"))]
-#[async_trait::async_trait]
-impl Endpoint for ChapterList {
-    async fn get() -> Result<Self, ErrorResponse> {
-        get_api_unwrap!(format!("{BASE_URL}/chapter"))
+mod cover {
+    use super::*;
+
+    #[cfg(any(feature = "wrapper"))]
+    #[async_trait::async_trait]
+    impl Endpoint for Cover {
+        async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
+            let res = Manga::get_uuid(manga_uuid).await;
+
+            let cover_uuid = if res.is_ok() {
+                let json = res.unwrap();
+                json.data
+                    .relationships
+                    .into_iter()
+                    .find(|p| p.data_type == "cover_art")
+                    .unwrap()
+                    .id
+            } else {
+                let json = res.unwrap_err();
+                return Err(json);
+            };
+
+            get_api_unwrap!(format!("{BASE_URL}/cover/{cover_uuid}"))
+        }
+    }
+
+    #[cfg(any(feature = "wrapper"))]
+    #[async_trait::async_trait]
+    impl Endpoint for CoverArtList {
+        async fn get() -> Result<Self, ErrorResponse> {
+            get_api_unwrap!(format!("{BASE_URL}/cover"))
+        }
     }
 }
 
-#[cfg(any(feature = "wrapper"))]
-#[async_trait::async_trait]
-impl Endpoint for Manga {
-    async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
-        let url = format!("{BASE_URL}/manga/{}", manga_uuid);
-        get_api_unwrap!(url)
-    }
-}
+mod manga {
+    use super::*;
 
-#[cfg(any(feature = "wrapper", feature = "dl"))]
-#[async_trait::async_trait]
-impl Endpoint for MangaFeed {
-    async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
-        let url = format!("{BASE_URL}/manga/{}/feed", manga_uuid);
-        get_api_unwrap!(url)
+    #[cfg(any(feature = "wrapper"))]
+    #[async_trait::async_trait]
+    impl Endpoint for Manga {
+        async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
+            let url = format!("{BASE_URL}/manga/{}", manga_uuid);
+            get_api_unwrap!(url)
+        }
     }
-}
 
-#[cfg(any(feature = "wrapper"))]
-#[async_trait::async_trait]
-impl Endpoint for MangaList {
-    async fn get() -> Result<Self, ErrorResponse> {
-        get_api_unwrap!(format!("{BASE_URL}/manga"))
+    #[cfg(any(feature = "wrapper", feature = "dl"))]
+    #[async_trait::async_trait]
+    impl Endpoint for MangaFeed {
+        async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
+            let url = format!("{BASE_URL}/manga/{}/feed", manga_uuid);
+            get_api_unwrap!(url)
+        }
+    }
+
+    #[cfg(any(feature = "wrapper"))]
+    #[async_trait::async_trait]
+    impl Endpoint for MangaList {
+        async fn get() -> Result<Self, ErrorResponse> {
+            get_api_unwrap!(format!("{BASE_URL}/manga"))
+        }
     }
 }
