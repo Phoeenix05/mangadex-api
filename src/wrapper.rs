@@ -80,8 +80,27 @@ mod athome {
     #[async_trait::async_trait]
     impl Endpoint for AtHomeServer {
         async fn get_uuid(chapter_uuid: Uuid) -> Result<Self, ErrorResponse> {
-            let url = format!("{BASE_URL}/at-home/server/{}", chapter_uuid);
-            get_api_unwrap!(url)
+            get_api_unwrap!(format!("{BASE_URL}/at-home/server/{chapter_uuid}"))
+        }
+    }
+}
+
+mod author {
+    use super::*;
+
+    #[cfg(any(feature = "wrapper"))]
+    #[async_trait::async_trait]
+    impl Endpoint for Author {
+        async fn get_uuid(author_uuid: Uuid) -> Result<Self, ErrorResponse> {
+            get_api_unwrap!(format!("{BASE_URL}/author/{author_uuid}"))
+        }
+    }
+
+    #[cfg(any(feature = "wrapper"))]
+    #[async_trait::async_trait]
+    impl Endpoint for AuthorList {
+        async fn get() -> Result<Self, ErrorResponse> {
+            get_api_unwrap!(format!("{BASE_URL}/author"))
         }
     }
 }
@@ -93,8 +112,7 @@ mod chapter {
     #[async_trait::async_trait]
     impl Endpoint for Chapter {
         async fn get_uuid(chapter_uuid: Uuid) -> Result<Self, ErrorResponse> {
-            let url = format!("{BASE_URL}/chapter/{}", chapter_uuid);
-            get_api_unwrap!(url)
+            get_api_unwrap!(format!("{BASE_URL}/chapter/{chapter_uuid}"))
         }
     }
 
@@ -149,8 +167,7 @@ mod manga {
     #[async_trait::async_trait]
     impl Endpoint for Manga {
         async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
-            let url = format!("{BASE_URL}/manga/{}", manga_uuid);
-            get_api_unwrap!(url)
+            get_api_unwrap!(format!("{BASE_URL}/manga/{manga_uuid}"))
         }
     }
 
@@ -158,8 +175,7 @@ mod manga {
     #[async_trait::async_trait]
     impl Endpoint for MangaFeed {
         async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
-            let url = format!("{BASE_URL}/manga/{}/feed", manga_uuid);
-            get_api_unwrap!(url)
+            get_api_unwrap!(format!("{BASE_URL}/manga/{manga_uuid}/feed"))
         }
     }
 

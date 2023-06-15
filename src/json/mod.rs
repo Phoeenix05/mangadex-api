@@ -3,9 +3,11 @@ use uuid::Uuid;
 
 pub mod error;
 
+pub mod author;
 pub mod chapter;
 pub mod cover;
 pub mod manga;
+// pub mod athome;
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase", bound = "T: serde::de::DeserializeOwned")]

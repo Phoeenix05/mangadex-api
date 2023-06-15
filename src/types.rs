@@ -31,7 +31,12 @@ pub mod get {
     /// API route Author [`/author/{authorId}`](http://api.mangadex.org/author/c6c278e1-268b-4b7b-84ec-3289bd0c08f0)
     ///
     /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Author/operation/get-author-id)
-    pub type Author = MangaDexAPIResponse<serde_json::Value>;
+    pub type Author = MangaDexAPIResponse<author::Author>;
+
+    /// API route Author [`/author`](http://api.mangadex.org/author/)
+    ///
+    /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Author/operation/get-author)
+    pub type AuthorList = MangaDexAPIResponse<author::AuthorList>;
 
     /// API route Chapter [`/chapter/{chapterId}`](http://api.mangadex.org/chapter/af456519-3791-47c3-af8a-23ed894b5dd8)
     ///
