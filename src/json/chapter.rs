@@ -1,6 +1,13 @@
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
+use url::Url;
+use uuid::Uuid;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+use super::Data;
+
+pub type Chapter = Data<Attributes>;
+pub type ChapterList = Vec<Data<Attributes>>;
+
+#[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Attributes {
     pub title: Option<String>,
@@ -8,8 +15,8 @@ pub struct Attributes {
     pub chapter: String,
     pub pages: u64,
     pub translated_language: String,
-    pub uploader: Option<uuid::Uuid>,
-    pub external_url: Option<String>,
+    pub uploader: Option<Uuid>,
+    pub external_url: Option<Url>,
     pub version: u64,
     pub created_at: String,
     pub updated_at: String,

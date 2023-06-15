@@ -3,35 +3,55 @@
 This project offers an API wrapper and Rust types for [MangaDex API (5.9)](https://api.mangadex.org/docs/redoc.html).
 
 **NOTE: At This point in the development of this library I'm trying to create features / make the library work so
-that it is as easy as possible to integrate with my MangaDex Reader project that uses Tauri**
+that it is as easy as possible to integrate with my MangaDex Reader project**
 
-## Feature / Todo list
+<br />
 
-| Endpoints       | Types  | API Wrapper |
-| --------------- | ------ | ----------- |
-| at_home         | v0.0.1 | v0.0.2      |
-| auth            |        |             |
-| author          | WIP    | WIP         |
-| captcha         |        |             |
-| chapter         | WIP    | WIP         |
-| cover           | WIP    | WIP         |
-| customlist      |        |             |
-| feed            |        |             |
-| follows         |        |             |
-| forums          |        |             |
-| infrastructure  |        |             |
-| legacy          |        |             |
-| manga           | WIP    | WIP         |
-| rating          |        |             |
-| readmarker      |        |             |
-| report          |        |             |
-| scanlationgroup |        |             |
-| settings        |        |             |
-| upload          |        |             |
-| user            |        |             |
+## Installation / How to use
+
+1. Add to project dependencies
+```toml
+mangadex-api = { git = "https://github.com/Phoeenix05/mangadex-api" }
+```
+
+2. Use
+```rust
+use mangadex_api::prelude::*;
+
+let data = MangaFeed::get_uuid(uuid::uuid!("77bee52c-d2d6-44ad-a33a-1734c1fe696a")).await.unwrap();
+```
+
+<br />
+
+## Features
+
+> `X` done, `-` no methods of this type for this API endpoint
+
+| Wrapper Endpoints | GET | POST | PUT | DELETE |
+| ----------------- | --- | ---- | --- | ------ |
+| at_home           | X   | -    | -   | -      |
+| auth              |     |      |     |        |
+| author            | X   |      |     |        |
+| captcha           |     |      |     |        |
+| chapter           | X   |      |     |        |
+| cover             | X   |      |     |        |
+| customlist        |     |      |     |        |
+| feed              |     |      |     |        |
+| follows           |     |      |     |        |
+| forums            |     |      |     |        |
+| infrastructure    |     |      |     |        |
+| legacy            |     |      |     |        |
+| manga             | WIP |      |     |        |
+| rating            |     |      |     |        |
+| readmarker        |     |      |     |        |
+| report            |     |      |     |        |
+| scanlationgroup   |     |      |     |        |
+| settings          |     |      |     |        |
+| upload            |     |      |     |        |
+| user              |     |      |     |        |
 
 <br/>
 
-### Todo
+## Todo list
 
 - [ ] Chapter / Manga downloader
