@@ -1,7 +1,5 @@
 mod get {
-    use mangadex_api::types::get::{Manga, MangaFeed, MangaList};
-    use mangadex_api::wrapper::Endpoint;
-    use uuid::uuid;
+    use mangadex_api::prelude::*;
 
     #[tokio::test]
     async fn manga_list() {

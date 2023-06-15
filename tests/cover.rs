@@ -1,7 +1,5 @@
 mod get {
-    use mangadex_api::types::get::{Cover, CoverArtList};
-    use mangadex_api::wrapper::Endpoint;
-    use uuid::uuid;
+    use mangadex_api::prelude::*;
 
     #[tokio::test]
     async fn cover() {

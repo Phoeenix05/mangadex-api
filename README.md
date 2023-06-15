@@ -12,16 +12,13 @@ that it is as easy as possible to integrate with my MangaDex Reader project**
 1. Add to project dependencies
 ```toml
 mangadex-api = { git = "https://github.com/Phoeenix05/mangadex-api" }
-uuid = "1.3.4"
 ```
 
 2. Use
 ```rust
-use mangadex_api::wrapper::Endpoint;
-use mangadex_api::types::*;
+use mangadex_api::prelude::*;
 
-// `get_uuid` and `get` methods return a `Result`
-let data = MangaFeed::get_uuid(uuid::uuid!("77bee52c-d2d6-44ad-a33a-1734c1fe696a")).await;
+let data = MangaFeed::get_uuid(uuid::uuid!("77bee52c-d2d6-44ad-a33a-1734c1fe696a")).await.unwrap();
 ```
 
 <br />
