@@ -7,28 +7,30 @@ that it is as easy as possible to integrate with my MangaDex Reader project that
 
 ## Feature / Todo list
 
-| Endpoints       | Types  | API Wrapper |
-| --------------- | ------ | ----------- |
-| at_home         | v0.0.1 | v0.0.2      |
-| auth            |        |             |
-| author          | WIP    | WIP         |
-| captcha         |        |             |
-| chapter         | WIP    | WIP         |
-| cover           | WIP    | WIP         |
-| customlist      |        |             |
-| feed            |        |             |
-| follows         |        |             |
-| forums          |        |             |
-| infrastructure  |        |             |
-| legacy          |        |             |
-| manga           | WIP    | WIP         |
-| rating          |        |             |
-| readmarker      |        |             |
-| report          |        |             |
-| scanlationgroup |        |             |
-| settings        |        |             |
-| upload          |        |             |
-| user            |        |             |
+> `X` done, `-` no methods of this type for this API endpoint
+
+| Wrapper Endpoints | GET | POST | PUT | DELETE |
+| ----------------- | --- | ---- | --- | ------ |
+| at_home           | X   | -    | -   | -      |
+| auth              |     |      |     |        |
+| author            | X   |      |     |        |
+| captcha           |     |      |     |        |
+| chapter           | X   |      |     |        |
+| cover             | X   |      |     |        |
+| customlist        |     |      |     |        |
+| feed              |     |      |     |        |
+| follows           |     |      |     |        |
+| forums            |     |      |     |        |
+| infrastructure    |     |      |     |        |
+| legacy            |     |      |     |        |
+| manga             | WIP |      |     |        |
+| rating            |     |      |     |        |
+| readmarker        |     |      |     |        |
+| report            |     |      |     |        |
+| scanlationgroup   |     |      |     |        |
+| settings          |     |      |     |        |
+| upload            |     |      |     |        |
+| user              |     |      |     |        |
 
 <br/>
 
