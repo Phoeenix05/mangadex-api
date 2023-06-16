@@ -7,6 +7,7 @@ pub mod author;
 pub mod chapter;
 pub mod cover;
 pub mod manga;
+pub mod statistics;
 // pub mod athome;
 
 #[derive(Debug, Clone, Deserialize)]

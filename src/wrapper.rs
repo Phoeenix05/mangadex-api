@@ -3,16 +3,22 @@ use uuid::Uuid;
 use crate::util::{BASE_URL, CLIENT};
 use crate::{json::error::ErrorResponse, types::get::*};
 
+macro_rules! unwrap_results {
+    ($res:expr) => {
+        if $res.status().is_success() {
+            let json = $res.json().await.unwrap();
+            Ok(json)
+        } else {
+            let json = $res.json().await.unwrap();
+            Err(json)
+        }
+    };
+}
+
 macro_rules! get_api_unwrap {
     ($url:expr) => {{
         let res = CLIENT.get($url).send().await.unwrap();
-        if res.status().is_success() {
-            let json = res.json().await.unwrap();
-            Ok(json)
-        } else {
-            let json = res.json().await.unwrap();
-            Err(json)
-        }
+        unwrap_results!(res)
     }};
 }
 
@@ -20,41 +26,15 @@ macro_rules! get_api_unwrap {
 macro_rules! post_put_api_unwrap {
     ($url:expr, $body:expr) => {{
         let res = CLIENT.post($url).body($body).send().await.unwrap();
-        if res.status().is_success() {
-            let json = res.json().await.unwrap();
-            Ok(json)
-        } else {
-            let json = res.json().await.unwrap();
-            Err(json)
-        }
+        unwrap_results!(res)
     }};
 }
-
-// #[allow(unused_macros)]
-// macro_rules! put_api_unwrap {
-//     ($url:expr, $body:expr) => {{
-//         let res = CLIENT.put($url).body($body).send().await.unwrap();
-//         if res.status().is_success() {
-//             let json = res.json().await.unwrap();
-//             Ok(json)
-//         } else {
-//             let json = res.json().await.unwrap();
-//             Err(json)
-//         }
-//     }};
-// }
 
 #[allow(unused_macros)]
 macro_rules! del_api_unwrap {
     ($url:expr) => {{
         let res = CLIENT.delete($url).send().await.unwrap();
-        if res.status().is_success() {
-            let json = res.json().await.unwrap();
-            Ok(json)
-        } else {
-            let json = res.json().await.unwrap();
-            Err(json)
-        }
+        unwrap_results!(res)
     }};
 }
 
@@ -184,6 +164,18 @@ mod manga {
     impl Endpoint for MangaList {
         async fn get() -> Result<Self, ErrorResponse> {
             get_api_unwrap!(format!("{BASE_URL}/manga"))
+        }
+    }
+}
+
+mod statistics {
+    use super::*;
+
+    #[cfg(any(feature = "wrapper"))]
+    #[async_trait::async_trait]
+    impl Endpoint for ChapterStatistics {
+        async fn get_uuid(chapter_uuid: Uuid) -> Result<Self, ErrorResponse> {
+            get_api_unwrap!(format!("{BASE_URL}/statistics/chapter/{chapter_uuid}"))
         }
     }
 }
