@@ -47,6 +47,7 @@ let data = MangaFeed::get_uuid(uuid::uuid!("77bee52c-d2d6-44ad-a33a-1734c1fe696a
 | report            |     |      |     |        |
 | scanlationgroup   |     |      |     |        |
 | settings          |     |      |     |        |
+| statistics        | WIP | -    | -   | -      |
 | upload            |     |      |     |        |
 | user              |     |      |     |        |
 
