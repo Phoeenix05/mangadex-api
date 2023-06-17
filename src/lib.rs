@@ -5,5 +5,6 @@ pub mod types;
 pub mod wrapper;
 
 // Private modules
+mod endpoint;
 mod json;
 mod util;

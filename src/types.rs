@@ -1,5 +1,4 @@
 pub mod get {
-    use crate::json::statistics::Statistics;
     use crate::json::*;
 
     use serde::Deserialize;
@@ -82,17 +81,17 @@ pub mod get {
     /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Manga/operation/get-search-manga)
     pub type MangaList = MangaDexAPIResponse<manga::MangaList>;
 
-    /// API route Statistics [`/statistics/chapter/{uuid}`](https://api.mangadex.org/statistics/chapter/af456519-3791-47c3-af8a-23ed894b5dd8)
-    ///
-    /// This route returns the statistics of the given chapter
-    ///
-    /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Statistics/operation/get-statistics-chapter-uuid)
-    pub type ChapterStatistics = Statistics;
-    // //// Thinking of a way to implement `Endpoint` for these due to
-    // //// conflicting implementations
-    // pub type ChapterListStatistics = Statistics;
-    // pub type ScanlationGroupStatistics = Statistics;
-    // pub type GroupListStatistics = Statistics;
-    // pub type MangaStatistics = Statistics;
-    // pub type MangaListStatistics = Statistics;
+    // /// API route Statistics [`/statistics/chapter/{uuid}`](https://api.mangadex.org/statistics/chapter/af456519-3791-47c3-af8a-23ed894b5dd8)
+    // ///
+    // /// This route returns the statistics of the given chapter
+    // ///
+    // /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Statistics/operation/get-statistics-chapter-uuid)
+    // pub type ChapterStatistics = Statistics;
+    // // //// Thinking of a way to implement `Endpoint` for these due to
+    // // //// conflicting implementations
+    // // pub type ChapterListStatistics = Statistics;
+    // // pub type ScanlationGroupStatistics = Statistics;
+    // // pub type GroupListStatistics = Statistics;
+    // // pub type MangaStatistics = Statistics;
+    // // pub type MangaListStatistics = Statistics;
 }

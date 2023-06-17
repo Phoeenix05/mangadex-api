@@ -1,7 +1,9 @@
 use uuid::Uuid;
 
+use crate::endpoint::Endpoint;
+use crate::json::{error::ErrorResponse, statistics::Statistics};
+use crate::types::get::*;
 use crate::util::{BASE_URL, CLIENT};
-use crate::{json::error::ErrorResponse, types::get::*};
 
 macro_rules! unwrap_results {
     ($res:expr) => {
@@ -38,29 +40,26 @@ macro_rules! del_api_unwrap {
     }};
 }
 
-#[cfg(any(feature = "wrapper", feature = "dl"))]
-#[async_trait::async_trait]
-pub trait Endpoint
-where
-    Self: Sized,
-{
-    async fn get() -> Result<Self, ErrorResponse> {
-        unimplemented!()
-    }
-
-    async fn get_uuid(_uuid: Uuid) -> Result<Self, ErrorResponse> {
-        unimplemented!()
-    }
-}
-
 mod athome {
     use super::*;
 
     #[cfg(any(feature = "wrapper", feature = "dl"))]
     #[async_trait::async_trait]
     impl Endpoint for AtHomeServer {
+        async fn get() -> Result<Self, ErrorResponse> {
+            unimplemented!()
+        }
+
         async fn get_uuid(chapter_uuid: Uuid) -> Result<Self, ErrorResponse> {
             get_api_unwrap!(format!("{BASE_URL}/at-home/server/{chapter_uuid}"))
+        }
+
+        async fn get_statistics(_uuid: Uuid) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
+        }
+
+        async fn get_statistics_list(_uuid: Vec<Uuid>) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
         }
     }
 }
@@ -71,8 +70,20 @@ mod author {
     #[cfg(any(feature = "wrapper"))]
     #[async_trait::async_trait]
     impl Endpoint for Author {
+        async fn get() -> Result<Self, ErrorResponse> {
+            unimplemented!()
+        }
+
         async fn get_uuid(author_uuid: Uuid) -> Result<Self, ErrorResponse> {
             get_api_unwrap!(format!("{BASE_URL}/author/{author_uuid}"))
+        }
+
+        async fn get_statistics(_uuid: Uuid) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
+        }
+
+        async fn get_statistics_list(_uuid: Vec<Uuid>) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
         }
     }
 
@@ -81,6 +92,18 @@ mod author {
     impl Endpoint for AuthorList {
         async fn get() -> Result<Self, ErrorResponse> {
             get_api_unwrap!(format!("{BASE_URL}/author"))
+        }
+
+        async fn get_uuid(_uuid: Uuid) -> Result<Self, ErrorResponse> {
+            unimplemented!()
+        }
+
+        async fn get_statistics(_uuid: Uuid) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
+        }
+
+        async fn get_statistics_list(_uuid: Vec<Uuid>) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
         }
     }
 }
@@ -91,8 +114,21 @@ mod chapter {
     #[cfg(any(feature = "wrapper"))]
     #[async_trait::async_trait]
     impl Endpoint for Chapter {
+        async fn get() -> Result<Self, ErrorResponse> {
+            unimplemented!()
+        }
+
         async fn get_uuid(chapter_uuid: Uuid) -> Result<Self, ErrorResponse> {
             get_api_unwrap!(format!("{BASE_URL}/chapter/{chapter_uuid}"))
+        }
+
+        async fn get_statistics(chapter_uuid: Uuid) -> Result<Statistics, ErrorResponse> {
+            let url = format!("{BASE_URL}/statistics/chapter/{chapter_uuid}");
+            get_api_unwrap!(url)
+        }
+
+        async fn get_statistics_list(_uuid: Vec<Uuid>) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
         }
     }
 
@@ -101,6 +137,25 @@ mod chapter {
     impl Endpoint for ChapterList {
         async fn get() -> Result<Self, ErrorResponse> {
             get_api_unwrap!(format!("{BASE_URL}/chapter"))
+        }
+
+        async fn get_uuid(_uuid: Uuid) -> Result<Self, ErrorResponse> {
+            unimplemented!()
+        }
+
+        async fn get_statistics(_uuid: Uuid) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
+        }
+
+        async fn get_statistics_list(uuid_list: Vec<Uuid>) -> Result<Statistics, ErrorResponse> {
+            let uuid_string = uuid_list
+                .into_iter()
+                .map(|u| u.to_string())
+                .collect::<Vec<_>>()
+                .join("&chapter[]=");
+
+            let url = format!("{BASE_URL}/statistics/chapter?chapter[]={uuid_string}");
+            get_api_unwrap!(url)
         }
     }
 }
@@ -111,6 +166,10 @@ mod cover {
     #[cfg(any(feature = "wrapper"))]
     #[async_trait::async_trait]
     impl Endpoint for Cover {
+        async fn get() -> Result<Self, ErrorResponse> {
+            unimplemented!()
+        }
+
         async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
             let res = Manga::get_uuid(manga_uuid).await;
 
@@ -129,6 +188,14 @@ mod cover {
 
             get_api_unwrap!(format!("{BASE_URL}/cover/{cover_uuid}"))
         }
+
+        async fn get_statistics(_uuid: Uuid) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
+        }
+
+        async fn get_statistics_list(_uuid: Vec<Uuid>) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
+        }
     }
 
     #[cfg(any(feature = "wrapper"))]
@@ -136,6 +203,18 @@ mod cover {
     impl Endpoint for CoverArtList {
         async fn get() -> Result<Self, ErrorResponse> {
             get_api_unwrap!(format!("{BASE_URL}/cover"))
+        }
+
+        async fn get_uuid(_uuid: Uuid) -> Result<Self, ErrorResponse> {
+            unimplemented!()
+        }
+
+        async fn get_statistics(_uuid: Uuid) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
+        }
+
+        async fn get_statistics_list(_uuid: Vec<Uuid>) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
         }
     }
 }
@@ -146,16 +225,41 @@ mod manga {
     #[cfg(any(feature = "wrapper"))]
     #[async_trait::async_trait]
     impl Endpoint for Manga {
+        async fn get() -> Result<Self, ErrorResponse> {
+            unimplemented!()
+        }
+
         async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
             get_api_unwrap!(format!("{BASE_URL}/manga/{manga_uuid}"))
+        }
+
+        async fn get_statistics(manga_uuid: Uuid) -> Result<Statistics, ErrorResponse> {
+            let url = format!("{BASE_URL}/statistics/manga/{manga_uuid}");
+            get_api_unwrap!(url)
+        }
+
+        async fn get_statistics_list(_uuid: Vec<Uuid>) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
         }
     }
 
     #[cfg(any(feature = "wrapper", feature = "dl"))]
     #[async_trait::async_trait]
     impl Endpoint for MangaFeed {
+        async fn get() -> Result<Self, ErrorResponse> {
+            unimplemented!()
+        }
+
         async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
             get_api_unwrap!(format!("{BASE_URL}/manga/{manga_uuid}/feed"))
+        }
+
+        async fn get_statistics(_uuid: Uuid) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
+        }
+
+        async fn get_statistics_list(_uuid: Vec<Uuid>) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
         }
     }
 
@@ -165,17 +269,24 @@ mod manga {
         async fn get() -> Result<Self, ErrorResponse> {
             get_api_unwrap!(format!("{BASE_URL}/manga"))
         }
-    }
-}
 
-mod statistics {
-    use super::*;
+        async fn get_uuid(_uuid: Uuid) -> Result<Self, ErrorResponse> {
+            unimplemented!()
+        }
 
-    #[cfg(any(feature = "wrapper"))]
-    #[async_trait::async_trait]
-    impl Endpoint for ChapterStatistics {
-        async fn get_uuid(chapter_uuid: Uuid) -> Result<Self, ErrorResponse> {
-            get_api_unwrap!(format!("{BASE_URL}/statistics/chapter/{chapter_uuid}"))
+        async fn get_statistics(_uuid: Uuid) -> Result<Statistics, ErrorResponse> {
+            unimplemented!()
+        }
+
+        async fn get_statistics_list(uuid_list: Vec<Uuid>) -> Result<Statistics, ErrorResponse> {
+            let uuid_string = uuid_list
+                .into_iter()
+                .map(|u| u.to_string())
+                .collect::<Vec<_>>()
+                .join("&manga[]=");
+
+            let url = format!("{BASE_URL}/statistics/manga?manga[]={uuid_string}");
+            get_api_unwrap!(url)
         }
     }
 }
