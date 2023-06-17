@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::{path::PathBuf, sync::Arc};
 
 use http_cache_reqwest::{CACacheManager, Cache, CacheMode, HttpCache};
 use reqwest::Client;
@@ -11,7 +11,14 @@ lazy_static::lazy_static! {
         let client = ClientBuilder::new(Client::new())
             .with(Cache(HttpCache {
                 mode: CacheMode::Default,
-                manager: CACacheManager::default(),
+                manager: CACacheManager {
+                    path: if let Some(mut path) = dirs::cache_dir() {
+                        path.push("mangadex_api-cacache");
+                        path
+                    } else {
+                        PathBuf::from("./mangadex_api-cacache")
+                    },
+                },
                 options: None
             }))
             .build();
