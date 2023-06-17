@@ -40,6 +40,17 @@ macro_rules! del_api_unwrap {
     }};
 }
 
+#[cfg(feature = "tauri")]
+mod tauri {
+    use crate::util::tauri::APIRoutes;
+
+    pub struct MangaDexAPIWrapper;
+
+    impl MangaDexAPIWrapper {
+        pub fn get(api_route: APIRoutes) {}
+    }
+}
+
 mod athome {
     use super::*;
 
@@ -173,17 +184,15 @@ mod cover {
         async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
             let res = Manga::get_uuid(manga_uuid).await;
 
-            let cover_uuid = if res.is_ok() {
-                let json = res.unwrap();
-                json.data
+            let cover_uuid = if let Ok(res) = res {
+                res.data
                     .relationships
                     .into_iter()
                     .find(|p| p.data_type == "cover_art")
                     .unwrap()
                     .id
             } else {
-                let json = res.unwrap_err();
-                return Err(json);
+                return Err(res.unwrap_err());
             };
 
             get_api_unwrap!(format!("{BASE_URL}/cover/{cover_uuid}"))
