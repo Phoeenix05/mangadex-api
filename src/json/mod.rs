@@ -38,4 +38,7 @@ pub struct MangaStatistics;
 pub struct MangaFeed;
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct MangaList;
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct MangaListStatistics;
