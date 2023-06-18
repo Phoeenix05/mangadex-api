@@ -243,25 +243,25 @@ mod manga {
         }
     }
 
-    #[cfg(any(feature = "wrapper", feature = "dl"))]
-    #[async_trait::async_trait]
-    impl Endpoint for MangaFeed {
-        async fn get() -> Result<Self, ErrorResponse> {
-            unimplemented!()
-        }
+    // #[cfg(any(feature = "wrapper", feature = "dl"))]
+    // #[async_trait::async_trait]
+    // impl Endpoint for MangaFeed {
+    //     async fn get() -> Result<Self, ErrorResponse> {
+    //         unimplemented!()
+    //     }
 
-        async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
-            get_api_unwrap!(format!("{BASE_URL}/manga/{manga_uuid}/feed"))
-        }
+    //     async fn get_uuid(manga_uuid: Uuid) -> Result<Self, ErrorResponse> {
+    //         get_api_unwrap!(format!("{BASE_URL}/manga/{manga_uuid}/feed"))
+    //     }
 
-        async fn get_statistics(_uuid: Uuid) -> Result<Statistics, ErrorResponse> {
-            unimplemented!()
-        }
+    //     async fn get_statistics(_uuid: Uuid) -> Result<Statistics, ErrorResponse> {
+    //         unimplemented!()
+    //     }
 
-        async fn get_statistics_list(_uuid: Vec<Uuid>) -> Result<Statistics, ErrorResponse> {
-            unimplemented!()
-        }
-    }
+    //     async fn get_statistics_list(_uuid: Vec<Uuid>) -> Result<Statistics, ErrorResponse> {
+    //         unimplemented!()
+    //     }
+    // }
 
     #[cfg(any(feature = "wrapper"))]
     #[async_trait::async_trait]

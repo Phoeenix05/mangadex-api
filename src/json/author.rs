@@ -1,4 +1,4 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use url::Url;
 
 use super::Data;
@@ -6,7 +6,7 @@ use super::Data;
 pub type Author = Data<Attributes>;
 pub type AuthorList = Vec<Data<Attributes>>;
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Attributes {
     pub name: String,

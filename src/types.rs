@@ -1,7 +1,7 @@
 pub mod get {
     use crate::json::*;
 
-    use serde::Deserialize;
+    use serde::{Deserialize, Serialize};
     use url::Url;
 
     /// API route AtHomeServer [`/at-home/server/{chapterId}`](https://api.mangadex.org/at-home/server/af456519-3791-47c3-af8a-23ed894b5dd8)
@@ -11,7 +11,7 @@ pub mod get {
     /// **NOTE:**
     /// `AtHomeServer` is defined here in `types.rs` as it is currently the only type
     /// that can't be defined with `MangaDexAPIResponse` struct.
-    #[derive(Debug, Clone, Deserialize)]
+    #[derive(Debug, Clone, Deserialize, Serialize)]
     #[serde(rename_all = "camelCase")]
     pub struct AtHomeServer {
         pub result: String,
@@ -19,7 +19,7 @@ pub mod get {
         pub chapter: Images,
     }
 
-    #[derive(Debug, Clone, Deserialize)]
+    #[derive(Debug, Clone, Deserialize, Serialize)]
     #[serde(rename_all = "camelCase")]
     pub struct Images {
         pub hash: String,
@@ -71,7 +71,7 @@ pub mod get {
     /// maximum.
     ///
     /// [MangaDex Docs](https://api.mangadex.org/docs/redoc.html#tag/Manga/operation/get-manga-id-feed)
-    pub type MangaFeed = MangaDexAPIResponse<serde_json::Value>;
+    pub type MangaFeed = ChapterList;
 
     /// API route MangaList [`/manga`](https://api.mangadex.org/manga/)
     ///
