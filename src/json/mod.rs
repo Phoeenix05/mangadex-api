@@ -1,4 +1,4 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 pub mod error;
@@ -20,8 +20,11 @@ pub struct MangaDexAPIResponse<T> {
     pub total: Option<u64>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
-#[serde(rename_all = "camelCase", bound = "T: serde::de::DeserializeOwned")]
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(
+    rename_all = "camelCase",
+    bound = "T: serde::de::DeserializeOwned + serde::Serialize"
+)]
 pub struct Data<T> {
     pub id: Uuid,
     #[serde(rename = "type")]
@@ -30,7 +33,7 @@ pub struct Data<T> {
     pub relationships: Vec<Relationship>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Relationship {
     pub id: Uuid,
@@ -40,7 +43,7 @@ pub struct Relationship {
     pub attributes: Option<serde_json::Value>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Tag {
     pub name: serde_json::Value,

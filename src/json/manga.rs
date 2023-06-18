@@ -1,11 +1,11 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use super::{Data, Tag};
 
 pub type Manga = Data<Attributes>;
 pub type MangaList = Vec<Data<Attributes>>;
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Attributes {
     pub title: serde_json::Value,

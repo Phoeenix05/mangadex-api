@@ -8,23 +8,11 @@
 //! This module is supposed to make it easier to call the API
 //! wrapper from the frontend (Leptos, Yew, etc...).
 
-use serde::{Deserialize, Serialize};
+// use serde::{de::DeserializeOwned, Deserialize, Serialize};
+// use uuid::Uuid;
 
-#[derive(Debug, Serialize, Deserialize)]
-pub enum APIRoutes {
-    AtHomeServer,
-    Chapter,
-    ChapterList,
-    Cover,
-    CoverArtList,
-    Manga,
-    MangaFeed,
-    MangaList,
-    Statistics(Statistics),
-}
+// use crate::{json::error::ErrorResponse, prelude::*};
 
-#[derive(Debug, Serialize, Deserialize)]
-pub enum Statistics {
-    Manga,
-    Chapter,
-}
+// pub async fn fetch_endpoint() -> Result<String, ErrorResponse> {
+//     Ok(serde_json::to_string(&res).unwrap())
+// }

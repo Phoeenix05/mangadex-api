@@ -40,16 +40,16 @@ macro_rules! del_api_unwrap {
     }};
 }
 
-#[cfg(feature = "tauri")]
-mod tauri {
-    use crate::util::tauri::APIRoutes;
+// #[cfg(feature = "tauri")]
+// mod tauri {
+//     use crate::util::tauri::APIRoutes;
 
-    pub struct MangaDexAPIWrapper;
+//     pub struct MangaDexAPIWrapper;
 
-    impl MangaDexAPIWrapper {
-        pub fn get(api_route: APIRoutes) {}
-    }
-}
+//     impl MangaDexAPIWrapper {
+//         pub fn get(api_route: APIRoutes) {}
+//     }
+// }
 
 mod athome {
     use super::*;
