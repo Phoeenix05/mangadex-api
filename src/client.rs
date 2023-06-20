@@ -1,10 +1,10 @@
 use async_trait::async_trait;
-use serde::{de::DeserializeOwned, Serialize};
+use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use uuid::Uuid;
 
 use crate::json::*;
 
-#[derive(Debug)]
+#[derive(Debug, Deserialize)]
 pub struct ClientError {
     pub msg: String,
     pub api_msg: Option<ApiError>,
@@ -17,19 +17,19 @@ impl std::fmt::Display for ClientError {
 }
 
 #[async_trait]
-pub trait ApiRoute
+pub trait ApiRoute<T>
 where
-    Self: Sized,
+    T: Clone + DeserializeOwned + Serialize,
 {
-    async fn get(mut self) -> Result<Self, ClientError>;
+    async fn get(mut self) -> Result<T, ClientError>;
 }
 
 #[async_trait]
-pub trait Statistics
+pub trait Statistics<T>
 where
-    Self: Sized,
+    T: Clone + DeserializeOwned + Serialize,
 {
-    async fn get_statistics(mut self) -> Result<Self, ClientError>;
+    async fn get_statistics(mut self) -> Result<T, ClientError>;
 }
 
 #[derive(Debug)]
@@ -38,14 +38,14 @@ where
     T: Clone + DeserializeOwned + Serialize,
 {
     uuid: Option<Uuid>,
-    pub data: Option<T>,
+    _t: std::marker::PhantomData<T>,
 }
 
 impl<T: Clone + DeserializeOwned + Serialize> Client<T> {
     pub fn new() -> Self {
         Self {
             uuid: None,
-            data: None,
+            _t: std::marker::PhantomData,
         }
     }
 

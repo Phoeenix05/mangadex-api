@@ -25,7 +25,7 @@ macro_rules! unwrap_api_results {
         let res: reqwest::Response = $res;
         if res.status().is_success() {
             let json = res.json().await.unwrap();
-            Some(json)
+            Ok(json)
         } else {
             let json: $crate::json::ApiError = res.json().await.unwrap();
             let err = $crate::client::ClientError {
