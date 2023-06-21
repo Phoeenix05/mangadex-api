@@ -1,0 +1,49 @@
+# Client should be able to support async functions
+Client:
+  generics:
+    # T is present here just to provide method implementations for 
+    # client
+    T: serde::de::DeserializeOwned + serde::Serialize
+  
+  fields:
+    uuid: uuid::Uuid
+    phantom: std::marker::PhantomData<T>
+  
+  methods:
+    - set_uuid:
+        params:
+          - mut self
+          - uuid: uuid::Uuid
+        returns:
+          Self
+
+  traits:
+    ClientTrait
+
+ClientTrait:
+  generics:
+    # T is present here just to provide method implementations for 
+    # client
+    T: serde::de::DeserializeOwned + serde::Serialize
+  
+  methods:
+    - to_string
+
+    async:
+      - get:
+          params:
+            - mut self
+          returns:
+            - T
+
+### Structs with deserialize should implement this trait
+APIRoute:
+  generics:
+    Self: Sized
+  
+  methods:
+    - get:
+        params:
+          
+        returns:
+

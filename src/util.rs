@@ -7,14 +7,14 @@ use reqwest_middleware::{ClientBuilder, ClientWithMiddleware};
 macro_rules! uuid_or_err {
     ($opt:expr) => {{
         let uuid: &Option<uuid::Uuid> = $opt;
-        if let Some(uuid) = uuid {
-            uuid
+        if uuid.is_some() {
+            Ok(uuid.unwrap())
         } else {
-            let err = $crate::client::ClientError {
-                msg: format!("This method requires a uuid"),
+            let err = crate::client::ClientError {
+                msg: "UUID required".into(),
                 api_msg: None,
             };
-            return Err(err);
+            Err(err)
         }
     }};
 }
