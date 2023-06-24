@@ -17,9 +17,9 @@ pub struct Client<T>
 where
     T: DeserializeOwned + Serialize,
 {
-    uuid: Option<Uuid>,
-    url: String,
-    _phantom: std::marker::PhantomData<T>,
+    pub uuid: Option<Uuid>,
+    // pub url: String,
+    pub _phantom: std::marker::PhantomData<T>,
 }
 
 pub struct ClientUtil;
