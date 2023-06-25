@@ -1,3 +1,5 @@
+//! This module provides types for every cover endpoint available on MangaDex API.
+
 use http_cache_reqwest::{CACacheManager, Cache, CacheMode, HttpCache};
 use reqwest_middleware::ClientBuilder;
 use serde::{Deserialize, Serialize};
@@ -6,10 +8,6 @@ use uuid::Uuid;
 use crate::prelude::*;
 use crate::util::client::construct_url;
 use crate::{unwrap_api_results, uuid_or_err};
-
-////////////////////////////////////////////////////////////////
-/// Structs
-////////////////////////////////////////////////////////////////
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Cover {
@@ -39,10 +37,6 @@ pub struct CoverAttributes {
     pub created_at: Option<String>,
     pub updated_at: Option<String>,
 }
-
-////////////////////////////////////////////////////////////////
-/// Implementations
-////////////////////////////////////////////////////////////////
 
 impl Client<Cover> {
     pub fn new(uuid: Uuid) -> Self {

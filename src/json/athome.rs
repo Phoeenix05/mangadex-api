@@ -1,3 +1,5 @@
+//! This module provides types for athome server endpoint.
+
 use http_cache_reqwest::{CACacheManager, Cache, CacheMode, HttpCache};
 use reqwest_middleware::ClientBuilder;
 use serde::{Deserialize, Serialize};
@@ -6,10 +8,6 @@ use uuid::Uuid;
 use crate::prelude::*;
 use crate::util::client::construct_url;
 use crate::{unwrap_api_results, uuid_or_err};
-
-////////////////////////////////////////////////////////////////
-/// Structs
-////////////////////////////////////////////////////////////////
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -27,10 +25,6 @@ pub struct Data {
     pub data: Vec<String>,
     pub data_saver: Vec<String>,
 }
-
-////////////////////////////////////////////////////////////////
-/// Implementations
-////////////////////////////////////////////////////////////////
 
 impl Client<AtHomeServer> {
     pub fn new(uuid: Uuid) -> Self {

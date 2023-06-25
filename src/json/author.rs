@@ -1,3 +1,5 @@
+//! This module provides types for every author endpoint available on MangaDex API.
+
 use http_cache_reqwest::{CACacheManager, Cache, CacheMode, HttpCache};
 use reqwest_middleware::ClientBuilder;
 use serde::{Deserialize, Serialize};
@@ -6,10 +8,6 @@ use uuid::Uuid;
 use crate::prelude::*;
 use crate::util::client::construct_url;
 use crate::{unwrap_api_results, uuid_or_err};
-
-////////////////////////////////////////////////////////////////
-/// Structs
-////////////////////////////////////////////////////////////////
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Author {
@@ -51,10 +49,6 @@ pub struct AuthorAttributes {
     pub created_at: String,
     pub updated_at: String,
 }
-
-////////////////////////////////////////////////////////////////
-/// Implementations
-////////////////////////////////////////////////////////////////
 
 impl Client<Author> {
     pub fn new(uuid: Uuid) -> Self {

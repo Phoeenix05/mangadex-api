@@ -43,4 +43,3 @@ pub mod client {
         url
     }
 }
-

@@ -1,3 +1,5 @@
+//! This module provides types for every chapter endpoint available on MangaDex API.
+
 use http_cache_reqwest::{CACacheManager, Cache, CacheMode, HttpCache};
 use reqwest_middleware::ClientBuilder;
 use serde::{Deserialize, Serialize};
@@ -6,10 +8,6 @@ use uuid::Uuid;
 use crate::prelude::*;
 use crate::util::client::construct_url;
 use crate::{unwrap_api_results, uuid_or_err};
-
-////////////////////////////////////////////////////////////////
-/// Structs
-////////////////////////////////////////////////////////////////
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Chapter {
@@ -44,10 +42,6 @@ pub struct ChapterAttributes {
     pub publish_at: String,
     pub readable_at: String,
 }
-
-////////////////////////////////////////////////////////////////
-/// Implementations
-////////////////////////////////////////////////////////////////
 
 impl Client<Chapter> {
     pub fn new(uuid: Uuid) -> Self {
