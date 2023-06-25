@@ -32,20 +32,6 @@ pub struct Data {
 /// Implementations
 ////////////////////////////////////////////////////////////////
 
-impl AtHomeServer {
-    pub fn result(&self) -> &String {
-        &self.result
-    }
-
-    pub fn base_url(&self) -> &String {
-        &self.base_url
-    }
-
-    pub fn data(&self) -> &Data {
-        &self.data
-    }
-}
-
 impl Client<AtHomeServer> {
     pub fn new(uuid: Uuid) -> Self {
         Self {
@@ -77,19 +63,5 @@ impl Client<AtHomeServer> {
             .await
             .unwrap();
         unwrap_api_results!(res)
-    }
-}
-
-impl Data {
-    pub fn hash(&self) -> &String {
-        &self.hash
-    }
-
-    pub fn data(&self) -> &Vec<String> {
-        &self.data
-    }
-
-    pub fn data_saver(&self) -> &Vec<String> {
-        &self.data_saver
     }
 }

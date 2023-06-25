@@ -52,8 +52,8 @@ async fn cover() {
         .await;
     let uuid = res
         .unwrap()
-        .data()
-        .relationships()
+        .data
+        .relationships
         .iter()
         .find(|p| p.data_type == "cover_art")
         .unwrap()

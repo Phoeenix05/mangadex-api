@@ -12,51 +12,37 @@ use crate::{unwrap_api_results, uuid_or_err};
 ////////////////////////////////////////////////////////////////
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct CoverAttributes {
-    volume: Option<String>,
-    file_name: String,
-    description: String,
-    locale: String,
-    version: u64,
-    created_at: Option<String>,
-    updated_at: Option<String>,
-}
-
-#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Cover {
-    result: String,
-    response: String,
-    data: Data<CoverAttributes>,
+    pub result: String,
+    pub response: String,
+    pub data: Data<CoverAttributes>,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct CoverList {
-    result: String,
-    response: String,
-    data: Vec<Data<CoverAttributes>>,
-    limit: u64,
-    offset: u64,
-    total: u64,
+    pub result: String,
+    pub response: String,
+    pub data: Vec<Data<CoverAttributes>>,
+    pub limit: u64,
+    pub offset: u64,
+    pub total: u64,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CoverAttributes {
+    pub volume: Option<String>,
+    pub file_name: String,
+    pub description: String,
+    pub locale: String,
+    pub version: u64,
+    pub created_at: Option<String>,
+    pub updated_at: Option<String>,
 }
 
 ////////////////////////////////////////////////////////////////
 /// Implementations
 ////////////////////////////////////////////////////////////////
-
-impl Cover {
-    pub fn result(&self) -> &String {
-        &self.result
-    }
-
-    pub fn response(&self) -> &String {
-        &self.response
-    }
-
-    pub fn data(&self) -> &Data<CoverAttributes> {
-        &self.data
-    }
-}
 
 impl Client<Cover> {
     pub fn new(uuid: Uuid) -> Self {
@@ -91,32 +77,6 @@ impl Client<Cover> {
     }
 }
 
-impl CoverList {
-    pub fn result(&self) -> &String {
-        &self.result
-    }
-
-    pub fn response(&self) -> &String {
-        &self.response
-    }
-
-    pub fn data(&self) -> &Vec<Data<CoverAttributes>> {
-        &self.data
-    }
-
-    pub fn limit(&self) -> &u64 {
-        &self.limit
-    }
-
-    pub fn offset(&self) -> &u64 {
-        &self.offset
-    }
-
-    pub fn total(&self) -> &u64 {
-        &self.total
-    }
-}
-
 impl Client<CoverList> {
     pub fn new() -> Self {
         Self {
@@ -146,35 +106,5 @@ impl Client<CoverList> {
             .await
             .unwrap();
         unwrap_api_results!(res)
-    }
-}
-
-impl CoverAttributes {
-    pub fn volume(&self) -> &Option<String> {
-        &self.volume
-    }
-
-    pub fn file_name(&self) -> &String {
-        &self.file_name
-    }
-
-    pub fn description(&self) -> &String {
-        &self.description
-    }
-
-    pub fn locale(&self) -> &String {
-        &self.locale
-    }
-
-    pub fn version(&self) -> &u64 {
-        &self.version
-    }
-
-    pub fn created_at(&self) -> &Option<String> {
-        &self.created_at
-    }
-
-    pub fn updated_at(&self) -> &Option<String> {
-        &self.updated_at
     }
 }
