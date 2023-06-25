@@ -1,9 +1,10 @@
+use http_cache_reqwest::{CACacheManager, Cache, CacheMode, HttpCache};
+use reqwest_middleware::ClientBuilder;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use crate::client::util::construct_url;
 use crate::prelude::*;
-use crate::util::*;
+use crate::util::client::construct_url;
 use crate::{unwrap_api_results, uuid_or_err};
 
 ////////////////////////////////////////////////////////////////
@@ -106,8 +107,22 @@ impl Client<Manga> {
     }
 
     pub async fn get(self) -> Result<Manga, ClientError> {
+        let client = ClientBuilder::new(reqwest::Client::new())
+            .with(Cache(HttpCache {
+                mode: CacheMode::Default,
+                manager: CACacheManager {
+                    path: if let Some(mut path) = dirs::cache_dir() {
+                        path.push("mangadex_api-cacache");
+                        path
+                    } else {
+                        std::path::PathBuf::from("./mangadex_api-cacache")
+                    },
+                },
+                options: None,
+            }))
+            .build();
         let uuid = uuid_or_err!(self.get_uuid()).unwrap();
-        let res = CLIENT
+        let res = client
             .get(construct_url(format!("/manga/{uuid}"), None))
             .send()
             .await
@@ -151,8 +166,22 @@ impl Client<MangaFeed> {
     }
 
     pub async fn get(self) -> Result<MangaFeed, ClientError> {
+        let client = ClientBuilder::new(reqwest::Client::new())
+            .with(Cache(HttpCache {
+                mode: CacheMode::Reload,
+                manager: CACacheManager {
+                    path: if let Some(mut path) = dirs::cache_dir() {
+                        path.push("mangadex_api-cacache");
+                        path
+                    } else {
+                        std::path::PathBuf::from("./mangadex_api-cacache")
+                    },
+                },
+                options: None,
+            }))
+            .build();
         let uuid = uuid_or_err!(self.get_uuid()).unwrap();
-        let res = CLIENT
+        let res = client
             .get(construct_url(format!("/manga/{uuid}/feed"), None))
             .send()
             .await
@@ -196,8 +225,22 @@ impl Client<MangaList> {
     }
 
     pub async fn get(self) -> Result<MangaList, ClientError> {
-        let res = CLIENT
-            .get(construct_url(format!("/manga/"), None))
+        let client = ClientBuilder::new(reqwest::Client::new())
+            .with(Cache(HttpCache {
+                mode: CacheMode::Default,
+                manager: CACacheManager {
+                    path: if let Some(mut path) = dirs::cache_dir() {
+                        path.push("mangadex_api-cacache");
+                        path
+                    } else {
+                        std::path::PathBuf::from("./mangadex_api-cacache")
+                    },
+                },
+                options: None,
+            }))
+            .build();
+        let res = client
+            .get(construct_url(format!("/manga"), None))
             .send()
             .await
             .unwrap();

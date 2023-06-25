@@ -1,8 +1,5 @@
 // #![cfg(feature = "wrapper")]
 
-use http_cache_reqwest::{CACacheManager, Cache, CacheMode, HttpCache};
-use reqwest_middleware::{ClientBuilder, ClientWithMiddleware};
-
 #[macro_export]
 macro_rules! uuid_or_err {
     ($opt:expr) => {{
@@ -37,12 +34,13 @@ macro_rules! unwrap_api_results {
     }};
 }
 
-lazy_static::lazy_static! {
-    pub static ref CLIENT: ClientWithMiddleware = ClientBuilder::new(reqwest::Client::new())
-        .with(Cache(HttpCache {
-            mode: CacheMode::Default,
-            manager: CACacheManager::default(),
-            options: None,
-        }))
-        .build();
+pub mod client {
+    pub fn construct_url(path: String, query: Option<&str>) -> url::Url {
+        use std::str::FromStr;
+        let mut url = url::Url::from_str("https://api.mangadex.org").unwrap();
+        url.set_path(path.as_str());
+        url.set_query(query);
+        url
+    }
 }
+

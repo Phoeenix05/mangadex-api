@@ -39,13 +39,3 @@ impl<T: DeserializeOwned + Serialize> Client<T> {
         &self.uuid
     }
 }
-
-pub mod util {
-    pub fn construct_url(path: String, query: Option<&str>) -> url::Url {
-        use std::str::FromStr;
-        let mut url = url::Url::from_str("https://api.mangadex.org").unwrap();
-        url.set_path(path.as_str());
-        url.set_query(query);
-        url
-    }
-}
