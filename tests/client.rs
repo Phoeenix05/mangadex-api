@@ -31,32 +31,38 @@ async fn athome_server() {
     assert!(res.is_ok(), "{:#?}", res.unwrap())
 }
 
-// #[tokio::test]
-// async fn author() {
-//     let res = Client::<Author>::new(uuid!("c288b108-5162-4065-aa3a-5857ec38c8d9"))
-//         .get()
-//         .await;
-//     assert!(res.is_ok(), "{:#?}", res.unwrap())
-// }
-
-// #[tokio::test]
-// async fn author_list() {
-//     let res = Client::<Manga>::new(uuid!("c288b108-5162-4065-aa3a-5857ec38c8d9"))
-//         .get()
-//         .await;
-//     assert!(res.is_ok(), "{:#?}", res.unwrap())
-// }
-
-#[ignore = "not yet implemented"]
 #[tokio::test]
-async fn cover() {
-    let res = Client::<Cover>::new(uuid!("c288b108-5162-4065-aa3a-5857ec38c8d9"))
+async fn author() {
+    let res = Client::<Author>::new(uuid!("c6c278e1-268b-4b7b-84ec-3289bd0c08f0"))
         .get()
         .await;
     assert!(res.is_ok(), "{:#?}", res.unwrap())
 }
 
-#[ignore = "not yet implemented"]
+#[tokio::test]
+async fn author_list() {
+    let res = Client::<AuthorList>::new().get().await;
+    assert!(res.is_ok(), "{:#?}", res.unwrap())
+}
+
+#[tokio::test]
+async fn cover() {
+    let res = Client::<Manga>::new(uuid!("77bee52c-d2d6-44ad-a33a-1734c1fe696a"))
+        .get()
+        .await;
+    let uuid = res
+        .unwrap()
+        .data()
+        .relationships()
+        .iter()
+        .find(|p| p.data_type == "cover_art")
+        .unwrap()
+        .uuid;
+
+    let res = Client::<Cover>::new(uuid).get().await;
+    assert!(res.is_ok(), "{:#?}", res.unwrap())
+}
+
 #[tokio::test]
 async fn cover_list() {
     let res = Client::<CoverList>::new().get().await;

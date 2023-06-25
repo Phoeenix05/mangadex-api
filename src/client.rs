@@ -4,8 +4,9 @@ use uuid::Uuid;
 use crate::json::*;
 
 ////////////////////////////////////////////////////////////////
-/// Client Structs
+/// Structs
 ////////////////////////////////////////////////////////////////
+
 #[derive(Debug, Deserialize)]
 pub struct ClientError {
     pub msg: String,
@@ -39,7 +40,7 @@ impl<T: DeserializeOwned + Serialize> Client<T> {
     }
 }
 
-impl ClientUtil {
+pub mod util {
     pub fn construct_url(path: String, query: Option<&str>) -> url::Url {
         use std::str::FromStr;
         let mut url = url::Url::from_str("https://api.mangadex.org").unwrap();

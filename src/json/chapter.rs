@@ -1,13 +1,15 @@
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use crate::{prelude::*, unwrap_api_results, util::CLIENT, uuid_or_err};
-
-use super::Data;
+use crate::client::util::construct_url;
+use crate::prelude::*;
+use crate::util::*;
+use crate::{unwrap_api_results, uuid_or_err};
 
 ////////////////////////////////////////////////////////////////
-/// Chapter
+/// Structs
 ////////////////////////////////////////////////////////////////
+
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Chapter {
     result: String,
@@ -17,13 +19,13 @@ pub struct Chapter {
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-struct ChapterAttributes {
+pub struct ChapterAttributes {
     title: Option<String>,
     volume: Option<String>,
     chapter: String,
     pages: u64,
     translated_language: String,
-    uploader: Option<uuid::Uuid>,
+    uploader: Option<Uuid>,
     external_url: Option<String>,
     version: u64,
     created_at: String,
@@ -32,8 +34,33 @@ struct ChapterAttributes {
     readable_at: String,
 }
 
-// #[derive(Debug, Clone, Deserialize, Serialize)]
-// pub struct ChapterStatistics;
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct ChapterList {
+    result: String,
+    response: String,
+    data: Vec<Data<ChapterAttributes>>,
+    limit: u64,
+    offset: u64,
+    total: u64,
+}
+
+////////////////////////////////////////////////////////////////
+/// Implementations
+////////////////////////////////////////////////////////////////
+
+impl Chapter {
+    pub fn result(&self) -> &String {
+        &self.result
+    }
+
+    pub fn response(&self) -> &String {
+        &self.response
+    }
+
+    pub fn data(&self) -> &Data<ChapterAttributes> {
+        &self.data
+    }
+}
 
 impl Client<Chapter> {
     pub fn new(uuid: Uuid) -> Self {
@@ -46,7 +73,7 @@ impl Client<Chapter> {
     pub async fn get(self) -> Result<Chapter, ClientError> {
         let uuid = uuid_or_err!(self.get_uuid()).unwrap();
         let res = CLIENT
-            .get(ClientUtil::construct_url(format!("/chapter/{uuid}"), None))
+            .get(construct_url(format!("/chapter/{uuid}"), None))
             .send()
             .await
             .unwrap();
@@ -54,27 +81,31 @@ impl Client<Chapter> {
     }
 }
 
-// impl Client<ChapterStatistics> {
-//     pub async fn get_statistics(self) -> Result<ChapterStatistics, ClientError> {
-//         todo!()
-//     }
-// }
+impl ChapterList {
+    pub fn result(&self) -> &String {
+        &self.result
+    }
 
-////////////////////////////////////////////////////////////////
-/// Manga list
-////////////////////////////////////////////////////////////////
-#[derive(Debug, Clone, Deserialize, Serialize)]
-pub struct ChapterList {
-    result: String,
-    response: String,
-    data: Vec<Data<ChapterAttributes>>,
-    limit: u64,
-    offset: u64,
-    total: u64,
+    pub fn response(&self) -> &String {
+        &self.response
+    }
+
+    pub fn data(&self) -> &Vec<Data<ChapterAttributes>> {
+        &self.data
+    }
+
+    pub fn limit(&self) -> &u64 {
+        &self.limit
+    }
+
+    pub fn offset(&self) -> &u64 {
+        &self.offset
+    }
+
+    pub fn total(&self) -> &u64 {
+        &self.total
+    }
 }
-
-// #[derive(Debug, Clone, Deserialize, Serialize)]
-// pub struct ChapterListStatistics;
 
 impl Client<ChapterList> {
     pub fn new() -> Self {
@@ -87,7 +118,7 @@ impl Client<ChapterList> {
 
     pub async fn get(self) -> Result<ChapterList, ClientError> {
         let res = CLIENT
-            .get(ClientUtil::construct_url("/chapter".into(), None))
+            .get(construct_url("/chapter".into(), None))
             .send()
             .await
             .unwrap();
@@ -95,12 +126,52 @@ impl Client<ChapterList> {
     }
 }
 
-// impl Client<ChapterListStatistics> {
-//     pub fn new() -> Self {
-//         todo!()
-//     }
+impl ChapterAttributes {
+    pub fn title(&self) -> &Option<String> {
+        &self.title
+    }
 
-//     pub async fn get_statistics(self) -> Result<ChapterListStatistics, ClientError> {
-//         todo!()
-//     }
-// }
+    pub fn volume(&self) -> &Option<String> {
+        &self.volume
+    }
+
+    pub fn chapter(&self) -> &String {
+        &self.chapter
+    }
+
+    pub fn pages(&self) -> &u64 {
+        &self.pages
+    }
+
+    pub fn translated_language(&self) -> &String {
+        &self.translated_language
+    }
+
+    pub fn uploader(&self) -> &Option<Uuid> {
+        &self.uploader
+    }
+
+    pub fn external_url(&self) -> &Option<String> {
+        &self.external_url
+    }
+
+    pub fn version(&self) -> &u64 {
+        &self.version
+    }
+
+    pub fn created_at(&self) -> &String {
+        &self.created_at
+    }
+
+    pub fn updated_at(&self) -> &String {
+        &self.updated_at
+    }
+
+    pub fn publish_at(&self) -> &String {
+        &self.publish_at
+    }
+
+    pub fn readable_at(&self) -> &String {
+        &self.readable_at
+    }
+}

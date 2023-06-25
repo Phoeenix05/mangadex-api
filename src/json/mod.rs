@@ -1,19 +1,24 @@
 pub mod athome;
-pub use athome::*;
+pub use athome::AtHomeServer;
 
 pub mod author;
-pub use author::*;
+pub use author::{Author, AuthorList};
 
 pub mod chapter;
-pub use chapter::*;
+pub use chapter::{Chapter, ChapterList};
 
 pub mod cover;
-pub use cover::*;
+pub use cover::{Cover, CoverList};
 
 pub mod manga;
-pub use manga::*;
+pub use manga::{Manga, MangaFeed, MangaList};
 
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
+
+////////////////////////////////////////////////////////////////
+/// Structs
+////////////////////////////////////////////////////////////////
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -41,4 +46,26 @@ pub struct Relationship {
     pub data_type: String,
     pub related: Option<String>,
     pub attributes: Option<serde_json::Value>,
+}
+
+////////////////////////////////////////////////////////////////
+/// Implementations
+////////////////////////////////////////////////////////////////
+
+impl<T> Data<T> {
+    pub fn uuid(&self) -> &Uuid {
+        &self.uuid
+    }
+
+    pub fn data_type(&self) -> &String {
+        &self.data_type
+    }
+
+    pub fn attributes(&self) -> &T {
+        &self.attributes
+    }
+
+    pub fn relationships(&self) -> &Vec<Relationship> {
+        &self.relationships
+    }
 }
