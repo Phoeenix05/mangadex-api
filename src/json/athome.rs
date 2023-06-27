@@ -1,13 +1,11 @@
 //! This module provides types for athome server endpoint.
 
-use http_cache_reqwest::{CACacheManager, Cache, CacheMode, HttpCache};
-use reqwest_middleware::ClientBuilder;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use crate::prelude::*;
 use crate::util::client::construct_url;
-use crate::{unwrap_api_results, uuid_or_err};
+use crate::{client, unwrap_api_results, uuid_or_err};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -35,20 +33,7 @@ impl Client<AtHomeServer> {
     }
 
     pub async fn get(self) -> Result<AtHomeServer, ClientError> {
-        let client = ClientBuilder::new(reqwest::Client::new())
-            .with(Cache(HttpCache {
-                mode: CacheMode::Default,
-                manager: CACacheManager {
-                    path: if let Some(mut path) = dirs::cache_dir() {
-                        path.push("mangadex_api-cacache");
-                        path
-                    } else {
-                        std::path::PathBuf::from("./mangadex_api-cacache")
-                    },
-                },
-                options: None,
-            }))
-            .build();
+        let client = client!(CacheMode::Default);
 
         let uuid = uuid_or_err!(self.get_uuid()).unwrap();
         let res = client

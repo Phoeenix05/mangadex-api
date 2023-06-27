@@ -30,7 +30,7 @@ pub mod cover;
 pub use cover::{Cover, CoverList};
 
 pub mod manga;
-pub use manga::{Manga, MangaAggregate, MangaFeed, MangaList};
+pub use manga::{Manga, MangaAggregate, MangaFeed, MangaList, RandomManga};
 
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;

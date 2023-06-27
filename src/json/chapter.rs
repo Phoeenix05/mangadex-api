@@ -1,13 +1,11 @@
 //! This module provides types for every chapter endpoint available on MangaDex API.
 
-use http_cache_reqwest::{CACacheManager, Cache, CacheMode, HttpCache};
-use reqwest_middleware::ClientBuilder;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use crate::prelude::*;
 use crate::util::client::construct_url;
-use crate::{unwrap_api_results, uuid_or_err};
+use crate::{client, unwrap_api_results, uuid_or_err};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Chapter {
@@ -52,20 +50,7 @@ impl Client<Chapter> {
     }
 
     pub async fn get(self) -> Result<Chapter, ClientError> {
-        let client = ClientBuilder::new(reqwest::Client::new())
-            .with(Cache(HttpCache {
-                mode: CacheMode::Default,
-                manager: CACacheManager {
-                    path: if let Some(mut path) = dirs::cache_dir() {
-                        path.push("mangadex_api-cacache");
-                        path
-                    } else {
-                        std::path::PathBuf::from("./mangadex_api-cacache")
-                    },
-                },
-                options: None,
-            }))
-            .build();
+        let client = client!(CacheMode::Default);
 
         let uuid = uuid_or_err!(self.get_uuid()).unwrap();
         let res = client
@@ -81,26 +66,12 @@ impl Client<ChapterList> {
     pub fn new() -> Self {
         Self {
             uuid: None,
-            // url: todo!(),
             _phantom: std::marker::PhantomData,
         }
     }
 
     pub async fn get(self) -> Result<ChapterList, ClientError> {
-        let client = ClientBuilder::new(reqwest::Client::new())
-            .with(Cache(HttpCache {
-                mode: CacheMode::Default,
-                manager: CACacheManager {
-                    path: if let Some(mut path) = dirs::cache_dir() {
-                        path.push("mangadex_api-cacache");
-                        path
-                    } else {
-                        std::path::PathBuf::from("./mangadex_api-cacache")
-                    },
-                },
-                options: None,
-            }))
-            .build();
+        let client = client!(CacheMode::NoCache);
         let res = client
             .get(construct_url("/chapter".into(), None))
             .send()

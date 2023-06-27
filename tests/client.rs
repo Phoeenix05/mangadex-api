@@ -10,6 +10,12 @@ async fn manga() {
 }
 
 #[tokio::test]
+async fn random_manga() {
+    let res = Client::<RandomManga>::new().get().await;
+    assert!(res.is_ok(), "{:#?}", res.unwrap_err())
+}
+
+#[tokio::test]
 async fn manga_feed() {
     let res = Client::<MangaFeed>::new(uuid!("c288b108-5162-4065-aa3a-5857ec38c8d9"))
         .get()
