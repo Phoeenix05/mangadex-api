@@ -38,6 +38,12 @@ async fn manga_aggregate() {
 }
 
 #[tokio::test]
+async fn tag_list() {
+    let res = Client::<TagList>::new().get().await;
+    assert!(res.is_ok(), "{:#?}", res.unwrap_err())
+}
+
+#[tokio::test]
 async fn athome_server() {
     let res = Client::<AtHomeServer>::new(uuid!("9e989fd3-72bf-4f99-a24c-114166be880a"))
         .get()

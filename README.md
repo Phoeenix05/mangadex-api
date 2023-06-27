@@ -42,6 +42,7 @@ let data = Client::<Manga>::new(uuid::uuid!("77bee52c-d2d6-44ad-a33a-1734c1fe696
 | infrastructure    |     |      |     |        |
 | legacy            |     |      |     |        |
 | manga             | WIP |      |     |        |
+| manga tag         | X   | -    | -   | -      |
 | rating            |     |      |     |        |
 | readmarker        |     |      |     |        |
 | report            |     |      |     |        |
@@ -50,6 +51,25 @@ let data = Client::<Manga>::new(uuid::uuid!("77bee52c-d2d6-44ad-a33a-1734c1fe696
 | statistics        | WIP | -    | -   | -      |
 | upload            |     |      |     |        |
 | user              |     |      |     |        |
+
+### API Endpoint that requires authentication
+| Wrapper Endpoints | GET | POST | PUT | DELETE |
+| ----------------- | --- | ---- | --- | ------ |
+| author            | -   |      |     |        |
+| chapter           | -   | -    |     |        |
+| cover             | -   |      |     |        |
+| customlist        |     |      |     |        |
+| feed              |     | -    | -   | -      |
+| follows           |     | -    | -   | -      |
+| forums            | -   |      | -   | -      |
+| manga             |     |      |     |        |
+| rating            |     |      | -   |        |
+| readmarker        |     |      | -   | -      |
+| report            |     |      | -   | -      |
+| scanlationgroup   | -   |      |     |        |
+| settings          |     |      |     |        |
+| upload            |     |      |     |        |
+| user              |     | -    | -   | -      |
 
 <br/>
 

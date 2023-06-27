@@ -32,6 +32,6 @@ jobs:
             ~/.cargo/registry/index
             ~/.cargo/registry/cache
             target
-          key: build-${{ env.cache-name }}
+          key: build-${{ env.cache-name }}-${{ hashFiles('Cargo.toml') }}
       - name: Run Clippy
         run: cargo clippy --all-targets --all-features
