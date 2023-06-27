@@ -1,14 +1,16 @@
 on:
   pull_request:
-    paths:
-      - src/**
-      - tests/**
-      - Cargo.toml
+    paths-ignore:
+      - .vscode/**
+      - .gitignore
+      - LICENSE
+      - README.md
   push:
-    paths:
-      - src/**
-      - tests/**
-      - Cargo.toml
+    paths-ignore:
+      - .vscode/**
+      - .gitignore
+      - LICENSE
+      - README.md
 
 name: Test
 
