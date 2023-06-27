@@ -1,5 +1,7 @@
 //! This module provides types for every manga endpoint available on MangaDex API.
 
+use std::collections::HashMap;
+
 use http_cache_reqwest::{CACacheManager, Cache, CacheMode, HttpCache};
 use reqwest_middleware::ClientBuilder;
 use serde::{Deserialize, Serialize};
@@ -32,7 +34,7 @@ pub struct MangaAttributes {
     pub year: Option<u64>,
     pub content_rating: String,
     pub chapter_numbers_reset_on_new_volume: bool,
-    pub available_translated_languages: Vec<serde_json::Value>, // Vec<String>
+    pub available_translated_languages: Vec<serde_json::Value>,
     pub latest_uploaded_chapter: uuid::Uuid,
     pub tags: Vec<serde_json::Value>,
     pub state: String,
@@ -76,6 +78,28 @@ pub struct MangaList {
     pub limit: u64,
     pub offset: u64,
     pub total: u64,
+}
+
+/// This is used fetch a list of volumes and chapters of a manga.
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct MangaAggregate {
+    pub result: String,
+    pub volumes: HashMap<String, Volume>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct Volume {
+    pub volume: String,
+    pub count: u64,
+    pub chapters: HashMap<String, Chapter>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct Chapter {
+    pub chapter: String,
+    pub id: Uuid,
+    pub others: Vec<Uuid>,
+    pub count: u64,
 }
 
 impl Client<Manga> {
@@ -169,6 +193,41 @@ impl Client<MangaList> {
             .build();
         let res = client
             .get(construct_url(format!("/manga"), None))
+            .send()
+            .await
+            .unwrap();
+        unwrap_api_results!(res)
+    }
+}
+
+impl Client<MangaAggregate> {
+    pub fn new(uuid: Uuid) -> Self {
+        Self {
+            uuid: Some(uuid),
+            _phantom: std::marker::PhantomData,
+        }
+    }
+
+    pub async fn get(self) -> Result<MangaAggregate, ClientError> {
+        let client = ClientBuilder::new(reqwest::Client::new())
+            .with(Cache(HttpCache {
+                mode: CacheMode::Default,
+                manager: CACacheManager {
+                    path: if let Some(mut path) = dirs::cache_dir() {
+                        path.push("mangadex_api-cacache");
+                        path
+                    } else {
+                        std::path::PathBuf::from("./mangadex_api-cacache")
+                    },
+                },
+                options: None,
+            }))
+            .build();
+        let res = client
+            .get(construct_url(
+                format!("/manga/{}/aggregate", self.uuid.unwrap()),
+                None,
+            ))
             .send()
             .await
             .unwrap();

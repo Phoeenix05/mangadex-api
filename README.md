@@ -18,12 +18,7 @@ mangadex-api = { git = "https://github.com/Phoeenix05/mangadex-api" }
 ```rust
 use mangadex_api::prelude::*;
 
-let data = Client::<Manga>::new()
-    .set_uuid(uuid::uuid!("77bee52c-d2d6-44ad-a33a-1734c1fe696a"))
-    .await
-    .unwrap()
-    .data
-    .unwrap();
+let data = Client::<Manga>::new(uuid::uuid!("77bee52c-d2d6-44ad-a33a-1734c1fe696a")).get().unwrap();
 ```
 
 <br />

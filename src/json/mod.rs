@@ -1,9 +1,9 @@
-//! This module provides types for deserializing API responses from 
+//! This module provides types for deserializing API responses from
 //! MangaDex API.
-//! 
+//!
 //! ```
 //! use mangadex_api::prelude::Manga;
-//! 
+//!
 //! #[tokio::main]
 //! async fn main() {
 //!     let json: Manga = reqwest::Client::new()
@@ -30,7 +30,7 @@ pub mod cover;
 pub use cover::{Cover, CoverList};
 
 pub mod manga;
-pub use manga::{Manga, MangaFeed, MangaList};
+pub use manga::{Manga, MangaAggregate, MangaFeed, MangaList};
 
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
@@ -55,11 +55,11 @@ pub struct Data<T> {
 
 /// This struct represents the relationships between mangas, covers, authors,
 /// chapters, etc.
-/// 
+///
 /// The `attributes` field of the relationship is `serde_json::Value` as the attribute
 /// value can be so many things it would be difficult to deserialize it automatically into
-/// a struct. The data can still be queried using `serde_json` crate. 
-/// 
+/// a struct. The data can still be queried using `serde_json` crate.
+///
 /// For now please check [MangaDex API docs](https://api.mangadex.org/docs/) for more info.
 /// Though I think the attributes field can be deserialized in to `mangadex_api::prelude::Manga`
 /// if the type of the relationship is `manga` same for `cover_art` and so on.

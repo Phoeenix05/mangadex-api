@@ -27,7 +27,7 @@ pub struct ClientError {
     pub api_msg: Option<ApiError>,
 }
 
-/// MangaDex API Client.
+/// MangaDex API Client. API client to fetch data from MangaDex API.
 ///
 /// ```
 /// use mangadex_api::prelude::{Client, Manga};
@@ -40,16 +40,7 @@ where
     T: DeserializeOwned + Serialize,
 {
     pub uuid: Option<Uuid>,
-    // pub url: String,
     pub _phantom: std::marker::PhantomData<T>,
-}
-
-pub struct ClientUtil;
-
-impl std::fmt::Display for ClientError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{self:#?}")
-    }
 }
 
 impl<T: DeserializeOwned + Serialize> Client<T> {
