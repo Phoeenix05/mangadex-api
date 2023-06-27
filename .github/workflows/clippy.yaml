@@ -1,0 +1,37 @@
+on:
+  pull_request:
+    paths-ignore:
+      - .vscode/**
+      - .gitignore
+      - LICENSE
+      - README.md
+  push:
+    paths-ignore:
+      - .vscode/**
+      - .gitignore
+      - LICENSE
+      - README.md
+
+name: Check
+
+jobs:
+  test:
+    name: Clippy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-dependencies
+        with:
+          path: |
+            ~/.cargo/.crates.toml
+            ~/.cargo/.crates2.json
+            ~/.cargo/bin
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            target
+          key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('Cargo.lock') }}
+      - name: Run Clippy
+        run: cargo clippy --all-targets --all-features
