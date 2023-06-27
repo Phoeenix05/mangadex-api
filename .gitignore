@@ -1,5 +1,4 @@
 /target
-/Cargo.lock
 /http-cacache
 .DS_Store
 /ignore
