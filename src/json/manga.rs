@@ -36,7 +36,7 @@ pub struct MangaAttributes {
     pub content_rating: String,
     pub chapter_numbers_reset_on_new_volume: bool,
     pub available_translated_languages: Vec<serde_json::Value>,
-    pub latest_uploaded_chapter: uuid::Uuid,
+    pub latest_uploaded_chapter: Option<Uuid>,
     pub tags: Vec<serde_json::Value>,
     pub state: String,
     pub version: u64,
@@ -98,7 +98,7 @@ pub struct Volume {
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Chapter {
     pub chapter: String,
-    pub id: Option<Uuid>,
+    pub id: Uuid,
     pub others: Vec<Uuid>,
     pub count: u64,
 }
