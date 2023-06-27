@@ -1,6 +1,14 @@
 on:
   pull_request:
+    paths:
+      - src/**
+      - tests/**
+      - Cargo.toml
   push:
+    paths:
+      - src/**
+      - tests/**
+      - Cargo.toml
 
 name: Check
 
