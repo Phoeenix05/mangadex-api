@@ -98,7 +98,7 @@ pub struct Volume {
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Chapter {
     pub chapter: String,
-    pub id: Uuid,
+    pub id: Option<Uuid>,
     pub others: Vec<Uuid>,
     pub count: u64,
 }

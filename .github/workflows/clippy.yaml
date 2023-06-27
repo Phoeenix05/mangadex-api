@@ -32,6 +32,6 @@ jobs:
             ~/.cargo/registry/index
             ~/.cargo/registry/cache
             target
-          key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('Cargo.lock') }}
+          key: build-${{ env.cache-name }}
       - name: Run Clippy
         run: cargo clippy --all-targets --all-features
