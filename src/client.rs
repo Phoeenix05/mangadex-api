@@ -21,7 +21,7 @@ use uuid::Uuid;
 
 use crate::json::*;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ClientError {
     pub msg: String,
     pub api_msg: Option<ApiError>,

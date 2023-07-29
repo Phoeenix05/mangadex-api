@@ -837,6 +837,8 @@ dependencies = [
  "dirs",
  "http-cache-reqwest",
  "lazy_static",
+ "mangadex-api-macros",
+ "mangadex-api-serde",
  "reqwest",
  "reqwest-middleware",
  "serde",
@@ -845,6 +847,14 @@ dependencies = [
  "url",
  "uuid",
 ]
+
+[[package]]
+name = "mangadex-api-macros"
+version = "0.1.0"
+
+[[package]]
+name = "mangadex-api-serde"
+version = "0.1.0"
 
 [[package]]
 name = "memchr"
